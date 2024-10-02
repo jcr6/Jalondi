@@ -25,6 +25,15 @@
     <Filter Include="Source Files\Slyvina\Units">
       <UniqueIdentifier>{a3176d7e-ea3a-4cff-bb5a-9edf78dcdac3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Slyvina\JCR6">
+      <UniqueIdentifier>{456ac647-9b13-400f-8913-df69b9ccffbe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External">
+      <UniqueIdentifier>{7ec7147e-1f3a-43b3-bd28-b53db7fac1ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\External\zlib">
+      <UniqueIdentifier>{0fad454d-9c86-4eb7-af03-231c4da5698c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jalondi_Main.cpp">
@@ -78,6 +87,30 @@
     <ClCompile Include="Jalondi_View.cpp">
       <Filter>Source Files\Jalondi</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_Core.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_JQL.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_QuakePAK.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_RealDir.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_WAD.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_Westwood.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_Write.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_zlib.cpp">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">
@@ -88,5 +121,10 @@
     <None Include="Jalondi_MkInit.py">
       <Filter>Source Files\Jalondi</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\..\..\..\Libs\JCR6\3rdParty\zlib\zlib.dll">
+      <Filter>Source Files\External\zlib</Filter>
+    </CopyFileToFolders>
   </ItemGroup>
 </Project>
