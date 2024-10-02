@@ -50,7 +50,7 @@ namespace Slyvina {
 			inline std::string Time() { return _Time; }
 			static void Show();
 		};
-#define SJB(Source) static J_Build _JB{Source,__DATE__,__TIME__};
+#define SJB(Source) static J_Build _JB{Source,__DATE__,__TIME__}
 
 
 		class J_Action {
