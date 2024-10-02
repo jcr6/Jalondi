@@ -43,10 +43,12 @@ namespace Slyvina {
 
 		static std::map<String, String> ExtReg{
 			{"PNG","Image"},{"BMP","Image"},{"JPG","Image"},{"JPEG","Image"},{"GIF","GIF"},
+			{"PDN","ImgSource"},{"XCF","ImgSource"},
 			{"WAV","Audio"},{"OGG","Audio"},{"MP3","Audio"},
 			{"LUA","Script"},{"LBC","Lua Byte Code"},
 			{"INI","Config"},{"XML","Data"},
-			{"MYDATA","DATA"}
+			{"MYDATA","DATA"},
+			{"MD","MarkDown"}
 		};
 
 		static void _View_Explain() {
@@ -63,6 +65,7 @@ namespace Slyvina {
 			QCol->Yellow("-w\t"); QCol->Cyan("Allow Westwood PAK files to be viewed\n");
 		}
 
+		struct cblck { int count{ 0 }, ID{ 0 }; JT_Block Blck{ nullptr }; String Main{ "" }; };
 		static int _View_Action(int car, char** arg) {
 			int ret{ 0 };
 			FlagConfig VA{};
@@ -101,6 +104,7 @@ namespace Slyvina {
 				std::map<String, String> MainType{};
 				std::map<String, int> MainCount{};
 				std::map<String, int> StorageCount{};
+				std::map<String, cblck> BlockCount{};
 				for (auto ent : *ejcr) {
 					MainCode[ent->MainFile] = Right(md5(ent->MainFile), 8);
 					if (!MainCount.count(ent->MainFile)) MainCount[ent->MainFile] = 0;
@@ -111,6 +115,16 @@ namespace Slyvina {
 					}
 					MainCount[ent->MainFile]++;
 					StorageCount[ent->Storage()]++;
+					if (ent->Block()) {
+						auto btag{ TrSPrintF((Right(md5(ent->MainFile) ,8) + ".%09d").c_str(),ent->Block()) };
+						if (!BlockCount.count(btag)) {
+							BlockCount[btag].count = 0;
+							BlockCount[btag].ID = ent->Block();
+							BlockCount[btag].Blck = rjcr->Blocks[TrSPrintF("%d:%s", ent->Block(), ent->MainFile.c_str())];
+							BlockCount[btag].Main = Right(md5(ent->MainFile), 8);
+						}
+						BlockCount[btag].count++;
+					}
 				}
 				std::cout << "\n\n";
 				QCol->White(ST("MainType", 10) + " " + ST("MainCode", 10) + " " + ST("Entries", 8) + " Main File\n");
@@ -129,10 +143,27 @@ namespace Slyvina {
 					QCol->LCyan(TrSPrintF("%4d\n", s.second));
 				}
 				std::cout << "\n\n";
+				QCol->White("MainCode Block Entries " + ST("Compressed", 12) + " " + ST("Real Size", 10) + " Ratio  Storage\n");
+				QCol->White("======== ===== ======= " + ST("==========", 12) + " " + ST("=========", 10) + " =====  =======\n");
+				for (auto b : BlockCount) {
+					QCol->LBlue(b.second.Main + " ");
+					QCol->LCyan(TrSPrintF("%5d ", b.second.ID));
+					QCol->Cyan(TrSPrintF("%7d ", b.second.count));
+					QCol->LGreen(TrSPrintF(" %9d   ", b.second.Blck->CompressedSize()));
+					QCol->Pink(TrSPrintF("%9d  ", b.second.Blck->RealSize()));
+					if (b.second.Blck->RealSize() == 0)
+						QCol->Magenta("----- ");
+					else
+						QCol->LMagenta(TrSPrintF("%5.1f%% ", ((double)b.second.Blck->CompressedSize() / (double)b.second.Blck->RealSize()) * 100));
+					QCol->Grey(b.second.Blck->dataString["__Storage"] + "\n");
+
+				}
+				std::cout << "\n\n";
 				//                    1
 				//           12345678901234
 				QCol->White("     File Type " + ST("Compressed", 12) + " "+ST("Real Size",10)+" Ratio  "+ST("MainCode",10)+" "+ST("Storage",10)+" Entry\n");
 				QCol->White("     ========= " + ST("==========", 12) + " "+ST("=========",10)+" =====  "+ST("========",10)+" "+ST("=======",10)+" =====\n");
+				int ecnt{ 0 };
 				for (auto e : *ejcr) {
 					auto XT{ Upper(ExtractExt(e->Name())) };
 					String ET{ "" }; if (ExtReg.count(XT)) ET = ExtReg[XT];
