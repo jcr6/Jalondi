@@ -23,6 +23,7 @@
 // 
 // Version: 24.10.02
 // EndLic
+
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
 
@@ -36,6 +37,7 @@ using namespace Jalondi;
 void Slyvina::Jalondi::Jal_Jalondi_Main() {}; // must only exist, but has no value at all.
 
 int main(int argc, char** args) {
+	int ret{ 0 };
 	SJB("Jalondi_Main.cpp");
 	Jalondi_Exe = args[0];
 	QCol->LMagenta("Jalondi\t");
@@ -61,7 +63,15 @@ int main(int argc, char** args) {
 			QCol->Cyan(f.second.QuickExplanation);
 			std::cout << "\n";
 		}
+		break;
+	case 2:
+		if (!J_Action::Register.count(Lower(args[1]))) { QCol->Error("Command " + String(args[1]) + " not recognized!"); return 1; }
+		J_Action::Register[Lower(args[1])].Explain();
+		break;
+	default:
+		if (!J_Action::Register.count(Lower(args[1]))) { QCol->Error("Command " + String(args[1]) + " not recognized!"); return 1; }
+		J_Action::Register[Lower(args[1])].Func(argc, args);
 	}
 	QCol->Reset();
-	return 0;
+	return ret;
 }
