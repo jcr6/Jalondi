@@ -75,6 +75,9 @@
     <ClCompile Include="..\..\..\..\Libs\Units\Source\SlyvVolumes.cpp">
       <Filter>Source Files\Slyvina\Units</Filter>
     </ClCompile>
+    <ClCompile Include="Jalondi_View.cpp">
+      <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">
