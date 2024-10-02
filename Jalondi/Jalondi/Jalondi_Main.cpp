@@ -21,11 +21,19 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.02
+// Version: 24.10.03
 // EndLic
 
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
+
+#include <JCR6_Core.hpp>
+#include <JCR6_JQL.hpp>
+#include <JCR6_QuakePAK.hpp>
+#include <JCR6_RealDir.hpp>
+#include <JCR6_WAD.hpp>
+#include <JCR6_Westwood.hpp>
+#include <JCR6_zlib.hpp>
 
 #include "Jalondi_Class.hpp"
 #include "Jalondi_Init.hpp"
@@ -33,10 +41,12 @@
 using namespace Slyvina;
 using namespace Units;
 using namespace Jalondi;
+using namespace JCR6;
 
 void Slyvina::Jalondi::Jal_Jalondi_Main() {}; // must only exist, but has no value at all.
 
 int main(int argc, char** args) {
+	
 	int ret{ 0 };
 	SJB("Jalondi_Main.cpp");
 	Jalondi_Exe = args[0];
@@ -46,6 +56,11 @@ int main(int argc, char** args) {
 	QCol->Doing("License", "General Public License v3");
 	QCol->LMagenta("(c) Jeroen P. Broks 2024!\n\n");
 	InitAll();
+	InitJQL();
+	InitQuake();
+	InitWAD();
+	for (int i = 2; i < argc; ++i) if (strcmp(args[i], "-w")==0) { Westwood_Init(); QCol->Warn("Westwood PAK files available"); }
+	init_zlib();
 	switch(argc)
 	{
 	case 0:
