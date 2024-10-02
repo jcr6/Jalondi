@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.02
+// Version: 24.10.03
 // EndLic
 #pragma once
 #include <Slyvina.hpp>
@@ -63,5 +63,10 @@ namespace Slyvina {
 			inline J_Action() {} // just has to exist for some idiotic reason.			
 			J_Action(std::string cmd, J_Action_Function F, J_Action_Explanation E,std::string QE);
 		};
+
+		inline String ST(String A, size_t T) {
+			auto ret = A; for (auto i = A.size(); i < T; i++) ret += " ";
+			return Units::Left(ret, T);
+		}
 	}
 }
