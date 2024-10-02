@@ -81,6 +81,7 @@ namespace Slyvina {
 		static int __VersionA(int, char**) { __Version(); return 0; }
 		static void __VersionA() { __Version(); }
 		void Jal_Jalondi_Class() { 
+			SJB("Jalondi_Class.cpp");
 			J_Action __MyVersion{ "version",__VersionA,__VersionA,"Build times of Jalondi" };
 		}
 #pragma endregion
