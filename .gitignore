@@ -5,3 +5,4 @@ Jalondi/Jalondi/Jalondi_Init.hpp
 x64
 *.MKL.gini
 MKL_*
+*.pdb
