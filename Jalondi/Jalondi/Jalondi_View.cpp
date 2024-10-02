@@ -21,19 +21,34 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.02
+// Version: 24.10.03
 // EndLic
 
+#include <SlyvArgParse.hpp>
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
+#include <SlyvMD5.hpp>
+
+#include <JCR6_Core.hpp>
 
 #include "Jalondi_Class.hpp"
+#include <SlyvStream.hpp>
 
 using namespace Slyvina;
 using namespace Units;
+using namespace JCR6;
 
 namespace Slyvina {
 	namespace Jalondi {
+
+		static std::map<String, String> ExtReg{
+			{"PNG","Image"},{"BMP","Image"},{"JPG","Image"},{"JPEG","Image"},{"GIF","GIF"},
+			{"WAV","Audio"},{"OGG","Audio"},{"MP3","Audio"},
+			{"LUA","Script"},{"LBC","Lua Byte Code"},
+			{"INI","Config"},{"XML","Data"},
+			{"MYDATA","DATA"}
+		};
+
 		static void _View_Explain() {
 			QCol->White("Will show all the contents of a JCR6 resource (including all external files it's been linked to)\n\n");
 			QCol->Magenta("Usage: ");
@@ -49,7 +64,94 @@ namespace Slyvina {
 		}
 
 		static int _View_Action(int car, char** arg) {
-			return 1;
+			int ret{ 0 };
+			FlagConfig VA{};
+			AddFlag_Bool(VA, "w", false); // ignored, as this is handled by the main program, but this will at least prevent issues!
+			AddFlag_Bool(VA, "x", false);
+			AddFlag_Bool(VA, "a", false);
+			AddFlag_Bool(VA, "xd", false);
+			auto PA{ ParseArg(car,arg,VA) };
+			for (size_t i = 1; i < PA.arguments.size(); ++i) {
+				auto fjcr{ ChReplace(PA.arguments[i],'\\','/') };
+				QCol->Doing("Request", TrSPrintF("%d/%d", i, PA.arguments.size() - 1));
+				QCol->Doing("Reading", fjcr);
+				if (!FileExists(fjcr)) {
+					if (DirectoryExists(fjcr)) {
+						QCol->Error(fjcr + " is a directory!");
+						ret = 2;
+						break;
+					} else {
+						QCol->Error(fjcr + "has not been found");
+						ret = 404; // Hey, let's remain in 'style' here.
+						break;
+					}
+				}
+				auto rjcr{ JCR6_Dir(fjcr) };
+				if (Last()->Error) {
+					QCol->Error(Last()->ErrorMessage);
+					QCol->Doing("- Main", Last()->MainFile);
+					QCol->Doing("- Entry", Last()->Entry);
+					ret = 3;
+					break;
+				}
+				if (!rjcr) { QCol->Error("JCR failed to load for unknown reasons!"); ret = 4; break; }
+				QCol->Doing("Analyzing", fjcr);
+				auto ejcr{ rjcr->Entries() };
+				std::map<String, String> MainCode{};
+				std::map<String, String> MainType{};
+				std::map<String, int> MainCount{};
+				std::map<String, int> StorageCount{};
+				for (auto ent : *ejcr) {
+					MainCode[ent->MainFile] = Right(md5(ent->MainFile), 8);
+					if (!MainCount.count(ent->MainFile)) MainCount[ent->MainFile] = 0;
+					if (!StorageCount.count(ent->Storage())) StorageCount[ent->Storage()] = 0;
+					if (!MainType.count(ent->MainFile)) {
+						if (ent->Offset() == 0) MainType[ent->MainFile] = "RAW file";
+						else MainType[ent->MainFile] = _JT_Dir::Recognize(ent->MainFile);
+					}
+					MainCount[ent->MainFile]++;
+					StorageCount[ent->Storage()]++;
+				}
+				std::cout << "\n\n";
+				QCol->White(ST("MainType", 10) + " " + ST("MainCode", 10) + " " + ST("Entries", 8) + " Main File\n");
+				QCol->White(ST("========", 10) + " " + ST("========", 10) + " " + ST("=======", 8) + " =========\n");
+				for (auto m : MainCount) {
+					QCol->Magenta(ST(MainType[m.first],10)+" ");
+					QCol->LBlue(ST(MainCode[m.first], 10) + " ");
+					QCol->Cyan(ST(TrSPrintF("%7d", m.second), 8) + " ");
+					QCol->White(m.first + "\n");
+				}
+				std::cout << "\n\n";
+				QCol->White(ST("Storage", 10) + " Used\n");
+				QCol->White(ST("=======", 10) + " ====\n");
+				for (auto s : StorageCount) {
+					QCol->LMagenta(ST(s.first,10)+" ");
+					QCol->LCyan(TrSPrintF("%4d\n", s.second));
+				}
+				std::cout << "\n\n";
+				//                    1
+				//           12345678901234
+				QCol->White("     File Type " + ST("Compressed", 12) + " "+ST("Real Size",10)+" Ratio  "+ST("MainCode",10)+" "+ST("Storage",10)+" Entry\n");
+				QCol->White("     ========= " + ST("==========", 12) + " "+ST("=========",10)+" =====  "+ST("========",10)+" "+ST("=======",10)+" =====\n");
+				for (auto e : *ejcr) {
+					auto XT{ Upper(ExtractExt(e->Name())) };
+					String ET{ "" }; if (ExtReg.count(XT)) ET = ExtReg[XT];
+					QCol->Blue(Right("                    " + ET, 14) + " ");
+					if (e->Block())
+						QCol->Green(ST(TrSPrintF("Block #%03d", e->Block()),12) + " ");
+					else
+						QCol->LGreen(TrSPrintF("   %9d ", e->CompressedSize()));
+					QCol->Pink(TrSPrintF(" %9d ",e->RealSize()));
+					if (e->Storage() == "Store" || e->RealSize() == 0 || e->Block())
+						QCol->Magenta("------ ");
+					else
+						QCol->LMagenta(TrSPrintF("%5.1f%% ", ((double)e->CompressedSize() / (double)e->RealSize()) * (double)100));
+					QCol->LBlue(ST(MainCode[e->MainFile], 10)+" ");
+					QCol->Grey(ST(e->Storage(), 10) + " ");
+					QCol->Yellow(e->Name()+"\n");
+				}
+			}		
+			return ret;
 		}
 
 		void Jal_Jalondi_View() {
