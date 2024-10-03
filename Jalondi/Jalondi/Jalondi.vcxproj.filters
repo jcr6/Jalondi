@@ -114,6 +114,9 @@
     <ClCompile Include="Jalondi_HEX.cpp">
       <Filter>Source Files\Jalondi</Filter>
     </ClCompile>
+    <ClCompile Include="Jalondi_Type.cpp">
+      <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">

@@ -28,6 +28,8 @@
 #include <SlyvString.hpp>
 #include <SlyvQCol.hpp>
 #include <JCR6_Core.hpp>
+#include <SlyvStream.hpp>
+#include <SlyvArgParse.hpp>
 
 using namespace Slyvina;
 using namespace Units;
@@ -40,7 +42,7 @@ namespace Slyvina {
 			QCol->White("Will show all the contents of a JCR6 resource (including all external files it's been linked to)\n\n");
 			QCol->Magenta("Usage: ");
 			QCol->Yellow(StripAll(Jalondi_Exe));
-			QCol->LGreen(" view ");
+			QCol->LGreen(" hex ");
 			QCol->LCyan(" [<switches>] ");
 			QCol->Pink(" <JCR6 file> ");
 			QCol->Grey(" <entries>\n");
@@ -48,6 +50,72 @@ namespace Slyvina {
 
 		static int _HEX_Action(int car, char** arg){
 			int ret{ 0 };
+			FlagConfig f{};
+			auto PA{ ParseArg(car,arg,f) };
+			auto fjcr{ ChReplace(PA.arguments[1],'\\','/')};
+			if (car < 4) { QCol->Error("No entries to be HEX viewed!"); return 4; }
+			QCol->Doing("Reading", fjcr);
+			if (!FileExists(fjcr)) {
+				if (DirectoryExists(fjcr)) {
+					QCol->Error(fjcr + " is a directory!");					
+					return 2;
+				} else {
+					QCol->Error(fjcr + "has not been found");
+					return 404; // Hey, let's remain in 'style' here.					
+				}
+			}
+			auto rjcr{ JCR6_Dir(fjcr) };
+			if (Last()->Error) {
+				QCol->Error(Last()->ErrorMessage);
+				QCol->Doing("- Main", Last()->MainFile);
+				QCol->Doing("- Entry", Last()->Entry);
+				return 3;				
+			}
+			for (int i = 2; i < PA.arguments.size(); i++) {
+				QCol->Doing(TrSPrintF("%d/%d: Hexing", i-1 , PA.arguments.size() - 2), PA.arguments[i]);
+				auto BT = rjcr->B(PA.arguments[i]);
+				if (Last()->Error) {
+					QCol->Error(Last()->ErrorMessage);
+					QCol->Doing("- Main", Last()->MainFile);
+					QCol->Doing("- Entry", Last()->Entry);
+					ret=3;
+					break;
+				}
+				if (!BT) { QCol->Error("Input buffer null pointer for unknown reasons!"); ret = 6; break; }
+				std::cout << ST("", 10);
+				for (int j = 0; j < 16; j++) {
+					if (j % 4 == 0) std::cout << " ";
+					QCol->White(TrSPrintF("0%X ", j));
+				}
+				std::cout << "\n";
+				BT->Position(0);
+				byte c{ 0 };
+				std::string dmp{ "" };
+				auto pos{ 0L };
+				while (!BT->AtEnd()) {
+					if (pos % 16 == 0) {
+						if (pos > 0) QCol->LGreen(dmp);
+						QCol->White(TrSPrintF("\n%08X  ", BT->Position()));
+						c = 0;
+						dmp = "";
+					} else if (pos % 4 == 0) {
+						std::cout << " ";
+						c = (++c) % 2;
+					}
+					auto B{ BT->ReadByte() }; ++pos;
+					switch (c) {
+					case 0: QCol->LCyan(TrSPrintF("%02X ", B)); break;
+					case 1: QCol->Cyan(TrSPrintF("%02X ", B)); break;
+					}
+					if (B >= 32 && B < 127) dmp += TrSPrintF("%c",(char)B); else dmp += ".";
+				}
+				for (auto p = pos; p % 16 != 0; p++) {
+					if (p % 4 == 0) std::cout << " ";
+					QCol->Dark(".. ");
+				}
+				QCol->LGreen(dmp+"\n\n");
+			}
+
 			return ret;
 		}
 
