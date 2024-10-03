@@ -45,10 +45,11 @@ namespace Slyvina {
 			{"PNG","Image"},{"BMP","Image"},{"JPG","Image"},{"JPEG","Image"},{"GIF","GIF"},
 			{"PDN","ImgSource"},{"XCF","ImgSource"},
 			{"WAV","Audio"},{"OGG","Audio"},{"MP3","Audio"},
-			{"LUA","Script"},{"LBC","Lua Byte Code"},
+			{"LUA","Script"},{"LBC","Lua Byte Code"},{"NEIL","Script"},{"NIL","Script"},
 			{"INI","Config"},{"XML","Data"},
 			{"MYDATA","DATA"},
-			{"MD","MarkDown"}
+			{"MD","MarkDown"},
+			{"CPP","Code"},{"HPP","Header"},{"CS","Code"},{"C","Code"},{"H","Header"},{"PAS","Code"}
 		};
 
 		static void _View_Explain() {
