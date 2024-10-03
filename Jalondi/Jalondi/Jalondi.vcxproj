@@ -236,6 +236,7 @@
     <CopyFileToFolders Include="..\..\..\..\Libs\JCR6\3rdParty\zlib\zlib.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
+    <None Include="Jalondi.lua" />
     <None Include="Jalondi_MkInit.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

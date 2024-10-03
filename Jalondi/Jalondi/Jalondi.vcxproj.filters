@@ -328,6 +328,9 @@
     <None Include="Jalondi_MkInit.py">
       <Filter>Source Files\Jalondi</Filter>
     </None>
+    <None Include="Jalondi.lua">
+      <Filter>Source Files\Jalondi</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\..\..\..\Libs\JCR6\3rdParty\zlib\zlib.dll">
