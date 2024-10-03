@@ -180,6 +180,10 @@ namespace Slyvina {
 					QCol->LBlue(ST(MainCode[e->MainFile], 10)+" ");
 					QCol->Grey(ST(e->Storage(), 10) + " ");
 					QCol->Yellow(e->Name()+"\n");
+					if (PA.bool_flags["x"]) {
+						QCol->Doing("\tAuthor", e->Author());
+						QCol->Doing("\tNotes", e->Notes());
+					}
 				}
 			}		
 			return ret;
