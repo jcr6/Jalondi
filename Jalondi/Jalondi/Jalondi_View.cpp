@@ -55,7 +55,7 @@ namespace Slyvina {
 			QCol->White("Will show all the contents of a JCR6 resource (including all external files it's been linked to)\n\n");
 			QCol->Magenta("Usage: ");
 			QCol->Yellow(StripAll(Jalondi_Exe));
-			QCol->LGreen(" <command> ");
+			QCol->LGreen(" view ");
 			QCol->LCyan(" [<switches>] ");
 			QCol->Pink(" <file> \n\n");
 			QCol->Magenta("switches\n");

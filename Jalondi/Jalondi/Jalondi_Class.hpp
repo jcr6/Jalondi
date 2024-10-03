@@ -25,6 +25,7 @@
 // EndLic
 #pragma once
 #include <Slyvina.hpp>
+#include <SlyvString.hpp>
 
 
 namespace Slyvina {

@@ -111,6 +111,9 @@
     <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_zlib.cpp">
       <Filter>Source Files\Slyvina\JCR6</Filter>
     </ClCompile>
+    <ClCompile Include="Jalondi_HEX.cpp">
+      <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">
