@@ -57,10 +57,10 @@ namespace Slyvina {
 		String Create_AddFile(FileToAdd& F2A);
 		String Create_AddFile(String Source, String Target, String Storage = "Store", String Author="",String Notes="", String Block = "");
 		void Create_Alias(EntryToAlias E2A);
-		void Create_Alias(String Source, String Alias, String Signature="*AUTO");
+		void Create_Alias(String Source, String Alias);
 		void Create_AddPatch(PatchToAdd P2A);
 		void Create_AddPatch(String Source, PatchType PT = PatchType::Import, String Prefix = "");
 
-
+		void Create_Run(String JCR6File, String Storage = "Store", String Signature = "*AUTO");
 	}
 }

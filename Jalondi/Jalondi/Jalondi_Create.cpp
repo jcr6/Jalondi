@@ -87,6 +87,7 @@ namespace Slyvina {
 
 		void Create_Alias(EntryToAlias E2A) { _EntriesToAlias.push_back(E2A); }
 
+
 		void Create_Alias(String Source, String Alias) {
 			EntryToAlias E2A{ Source,Alias };
 			Create_Alias(E2A);
