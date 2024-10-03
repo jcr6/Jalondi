@@ -59,7 +59,7 @@ namespace Slyvina {
 			AddFlag_Bool(f, "e",false);
 			auto PA{ ParseArg(car,arg,f) };
 			auto fjcr{ ChReplace(PA.arguments[1],'\\','/') };
-			if (car < 4) { QCol->Error("No entries to be HEX viewed!"); return 4; }
+			if (car < 4) { QCol->Error("No entries to be viewed!"); return 4; }
 			QCol->Doing("Reading", fjcr);
 			if (!FileExists(fjcr)) {
 				if (DirectoryExists(fjcr)) {
