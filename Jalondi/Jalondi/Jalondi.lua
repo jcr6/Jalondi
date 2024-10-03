@@ -31,28 +31,44 @@ local Meta = {}
 
 sprintf = string.format
 local sprintf=sprintf
+function printf(fmt,...)
+	print(fmt:format(...))
+end
+local printf=printf
 
-function Meta.__index(s,idx)
-	idx=idx:upper()
-	if idx=="ARGS" then
-		return #s.___args
-	elseif type(idx)=="number" then
+function JALONDI_CHOPFILE(f)
+	local ret = {}
+	ret.Dir,ret.File,ret.Ext=Jalondi.FSplit(f)
+	return ret
+end
+
+function Meta.__index(s,idx)	
+	if type(idx)=='number' then
 		return s.___args[idx]
+	end
+	assert(type(idx)=='string','Illegal Jalondi call')
+	idx = idx:upper()
+	if idx=='ARGS' then
+		return #s.___args
+	elseif idx=='SCRIPT' then
+		return s.___args.script		
 	elseif s.___true[idx] then
 		return s.___true[idx]
 	else
-		error(sprintf("Jalondi does not have a field named \"%s\"!",idx))
+		error(sprintf('Jalondi does not have a field named -%s-!',idx))
 	end
 end
 
 function Meta.__newindex(s,idx)
 	idx = idx:upper()
-	if idx=="ARGS" or type(idx)=="number" then
-		error("Argument fields are read-only!")
+	if idx=='ARGS' or type(idx)=='number' then
+		error('Argument fields are read-only!')
 	elseif s.___true[idx] then
-		return s.___true[idx]
+		print('???') for k,v in pairs(s.___true) do print(k,v) end -- debug
+		error('All fields are read-only and so is: '..idx)		
+		--return s.___true[idx]
 	else
-		error(sprintf("Jalondi does not have a field named \"%s\"!",idx))
+		error(sprintf('Jalondi does not have a field named -%s-!',idx))
 	end
 end
 
@@ -61,9 +77,12 @@ Jalondi = setmetatable(Jal,Meta)
 
 
 for k,v in pairs(_G) do
-	if k:sub(1,8)=="JALONDI_" then
+     --             12345678
+	-- print(k,k:sub(1,8))
+	if k:sub(1,8)=='JALONDI_' then
+		--print('Added:',k:sub(9))
 		Kill[#Kill+1]=k
-		Jal.___true[k:sub(8)]=v
+		Jal.___true[k:sub(9)]=v
 	end
 end
 for _,victim in ipairs(Kill) do _G[victim]=nil end
