@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>type "E:\Releases\House Of Cards\alpha\House Of Cards.jcr" Script/Game/Spiderette/Icon.png ReadMe.md -e</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>create E:\Projects\Applications\Slyvina\Tools\Jalondi\Test.jcr E:\Projects\Applications\Slyvina\Tools\Jalondi -cm zlib</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

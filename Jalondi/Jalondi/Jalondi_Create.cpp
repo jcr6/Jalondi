@@ -36,6 +36,8 @@
 #include <SlyvQCol.hpp>
 #include <SlyvArgParse.hpp>
 #include <SlyvDir.hpp>
+#include <SlyvConInput.hpp>
+
 
 using namespace Slyvina::Units;
 using namespace Slyvina::JCR6;
@@ -74,6 +76,7 @@ namespace Slyvina {
 				} while (_BlockNums.count(BlockTag));
 			} else { BlockTag = F2A.Block; }
 			_BlockNums[BlockTag] = nullptr; // Actual numbers will be filled in once the packing is running
+			_FilesToAdd.push_back(F2A);
 			return BlockTag;
 		}
 
@@ -97,76 +100,83 @@ namespace Slyvina {
 		}
 
 		void Create_Run(String JCR6File, String Storage, String Signature) {
-			QCol->Doing("Creating", JCR6File);
-			uint32 errors{ 0 };
-			auto Sig{ Signature }; if (Upper(Sig) == "*AUTO") Sig = md5(JCR6File + "." + Storage + "." + CurrentTime() + "." + CurrentDate());
-			auto JO{ CreateJCR6(JCR6File,Storage,Sig) }; J6E;
-			QCol->Doing("FT Storage", Storage);
-			if (Sig.size()) QCol->Doing("Signature", Sig);
-			for (auto F2A : _FilesToAdd) {
-				QCol->Doing("Freezing", F2A.Source, " ");
-				if (!FileExists(F2A.Source)) ErrB("Source file not found!");
-				if (!GetCompDrivers()->count(F2A.Storage)) {
-					Err("Storage method '" + F2A.Storage + "' not found -- Storing!");
-					F2A.Storage = "Store";
+			try {
+				QCol->Doing("Creating", JCR6File);
+				uint32 errors{ 0 };
+				auto Sig{ Signature }; if (Upper(Sig) == "*AUTO") Sig = md5(JCR6File + "." + Storage + "." + CurrentTime() + "." + CurrentDate());
+				auto JO{ CreateJCR6(JCR6File,Storage,Sig) }; J6E;
+				QCol->Doing("FT Storage", Storage);
+				if (Sig.size()) QCol->Doing("Signature", Sig);
+				for (auto F2A : _FilesToAdd) {
 					QCol->Doing("Freezing", F2A.Source, " ");
-				}
-				if (JO->Entries.count(Upper(F2A.Target))) {
-					ErrB("Duplicate target name: " + F2A.Target);
-				}
-				if (F2A.Block.size()) {
-					if (!_BlockNums[F2A.Block]) {
-						_BlockNums[F2A.Block] = JO->AddBlock(F2A.Storage); J6E;
-						QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[F2A.Block]->ID()));
+					if (!FileExists(F2A.Source)) ErrB("Source file not found!");
+					if (!GetCompDrivers()->count(F2A.Storage)) {
+						Err("Storage method '" + F2A.Storage + "' not found -- Storing!");
+						F2A.Storage = "Store";
+						QCol->Doing("Freezing", F2A.Source, " ");
 					}
-					_BlockNums[F2A.Block]->AddFile(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
-					QCol->Green(TrSPrintF("\rBlock #%03d", _BlockNums[F2A.Block]->ID()));
-				} else {
-					JO->AddFile(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
-					auto e{ JO->Entries[Upper(F2A.Target)] };
-					if (e->Storage() == "Store\n")
-						QCol->White("\rStored:   ");
+					if (JO->Entries.count(Upper(F2A.Target))) {
+						ErrB("Duplicate target name: " + F2A.Target);
+					}
+					if (F2A.Block.size()) {
+						if (!_BlockNums[F2A.Block]) {
+							_BlockNums[F2A.Block] = JO->AddBlock(F2A.Storage); J6E;
+							QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[F2A.Block]->ID()));
+						}
+						_BlockNums[F2A.Block]->AddFile(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
+						QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[F2A.Block]->ID()));
+					} else {
+						JO->AddFile(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
+						auto e{ JO->Entries[Upper(F2A.Target)] };
+						if (e->Storage() == "Store")
+							QCol->White("\rStored:   \n");
+						else {
+							QCol->LGreen(e->Storage() + "\r");
+							QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
+						}
+					}
+				}
+				for (auto B2C : _BlockNums) {
+					if (!B2C.first.size()) break; 
+					if (!B2C.second)
+						ErrB("Block \"" + B2C.first + "\" is a null pointer");					
+					QCol->Doing("Closing", TrSPrintF("Block #%03d", B2C.second->ID()), " ");
+					B2C.second->Close();  J6E;
+					if (B2C.second->Storage() == "Store")
+						QCol->White("\rStored:   \n");
 					else {
-						QCol->LGreen(e->Storage() + "\r");
-						QCol->LMagenta(TrSPrintF("%9.2%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
+						QCol->LGreen(B2C.second->Storage() + "\r");
+						QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)B2C.second->CompressedSize() / (double)B2C.second->Size()) * 100.0));
 					}
 				}
-			}
-			for (auto B2C : _BlockNums) {
-				QCol->Doing("Closing", TrSPrintF("Block #%03d", B2C.second->ID()), " ");
-				B2C.second->Close();  J6E;
-				if (B2C.second->Storage() == "Store\n")
-					QCol->White("\rStored:   ");
-				else {
-					QCol->LGreen(B2C.second->Storage() + "\r");
-					QCol->LMagenta(TrSPrintF("%9.2%% \n", ((double)B2C.second->CompressedSize() / (double)B2C.second->Size()) * 100.0));
+				for (auto AE : _EntriesToAlias) {
+					QCol->Doing("Alias", AE.Source, ""); QCol->LMagenta(" -> "); QCol->LGreen(AE.Alias);
+					if (!JO->Entries.count(Upper(AE.Source))) ErrB("Source not present!");
+					if (JO->Entries.count(Upper(AE.Alias))) ErrB("Dupe target");
+					JO->Alias(AE.Source, AE.Alias);
+					QCol->LCyan(" Ok\n");
 				}
-			}
-			for (auto AE : _EntriesToAlias) {
-				QCol->Doing("Alias", AE.Source, ""); QCol->LMagenta(" -> "); QCol->LGreen(AE.Alias);
-				if (!JO->Entries.count(Upper(AE.Source))) ErrB("Source not present!");
-				if (JO->Entries.count(Upper(AE.Alias))) ErrB("Dupe target");
-				JO->Alias(AE.Source, AE.Alias);
-				QCol->LCyan(" Ok\n");
-			}
-			for (auto Dep : _PatchesToAdd) {
-				switch (Dep.Type) {
-				case PatchType::Import:
-					QCol->Doing("Import", Dep.Source);
-					JO->Import(Dep.Source); J6E;
-					break;
-				case PatchType::Require:
-					QCol->Doing("Require", Dep.Source);
-					JO->Require(Dep.Source); J6E;
-					break;
-				default:
-					Err(TrSPrintF("Unknown patch type (%d)", (int)Dep.Type));;
-					break;
+				for (auto Dep : _PatchesToAdd) {
+					switch (Dep.Type) {
+					case PatchType::Import:
+						QCol->Doing("Import", Dep.Source);
+						JO->Import(Dep.Source); J6E;
+						break;
+					case PatchType::Require:
+						QCol->Doing("Require", Dep.Source);
+						JO->Require(Dep.Source); J6E;
+						break;
+					default:
+						Err(TrSPrintF("Unknown patch type (%d)", (int)Dep.Type));;
+						break;
+					}
 				}
+				QCol->Doing("Finalizing", JCR6File);
+				JO->Close(); J6E;
+				QCol->Cyan("Ok\n\n");
+			} catch (std::runtime_error err) {
+				QCol->Error("Fatal error: " + (String)err.what());
 			}
-			QCol->Doing("Finalizing", JCR6File);
-			JO->Close(); J6E;
-			QCol->Cyan("Ok\n\n");
 		}
 #pragma endregion
 
@@ -190,6 +200,22 @@ namespace Slyvina {
 			QCol->Yellow("-y\t"); QCol->Cyan("Answer all yes/no questions with 'yes'\n");
 		}
 
+		static bool _Yes(String Question,bool alwaysyes) {
+			QCol->Yellow(Question);
+			QCol->LMagenta(" ? ");
+			QCol->LCyan("<Y/N> ");
+			QCol->Grey("");
+			if (alwaysyes) {
+				QCol->LGreen("Yes\n");
+				return true;
+			}
+			String Answer{ "" };
+			do {
+				Answer = Trim(Upper(ReadLine("")));
+			} while (!Answer.size());
+			return Answer[0] == 'Y';
+		}
+#define GYes(Question) _Yes(Question,alwaysyes)
 		static int _Create_Action(int car, char** arg) {
 			int ret{ 0 };
 			FlagConfig f{};
@@ -205,14 +231,28 @@ namespace Slyvina {
 			auto PA{ ParseArg(car,arg,f) };
 			auto fjcr{ ChReplace(PA.arguments[1],'\\','/') };
 			auto cm{ PA.string_flags["cm"] };
+			auto fc{ PA.string_flags["fc"] };
 			auto author{ PA.string_flags["author"] };
 			auto notes{ PA.string_flags["notes"] };
 			auto alwaysyes{ PA.bool_flags["y"] };
+			if (FileExists(fjcr)) {
+				if (!GYes("File \"" + fjcr + "\" already exists. Destroy the old")) return 7;
+				if (!FileDelete(fjcr)) { QCol->Error("File could not be deleted!"); return 8; }
+			} else if (DirectoryExists(fjcr)) {
+				QCol->Error("There's a directory name \"" + fjcr + "\"! Remove or rename that first!");
+				return 9;
+			}
 			std::vector<String> AddStuff{};
-			if (car <= 3) AddStuff.push_back(ChReplace(CurrentDir(), '\\', '/')); else for (int i = 3; i < car; i++) AddStuff.push_back(ChReplace(arg[i], '\\', '/'));
+			//std::cout << PA.arguments.size() << "\n"; // debug
+			if (PA.arguments.size() <= 2) {
+				QCol->Doing("AutoSource", CurrentDir());
+				AddStuff.push_back(ChReplace(CurrentDir(), '\\', '/'));
+			} else for (int i = 2; i < PA.arguments.size(); i++) AddStuff.push_back(ChReplace(PA.arguments[i], '\\', '/'));
 			Create_Clear();
+			auto entries{ 0 };
 			for (auto A : AddStuff) {
 				if (IsFile(A)) {
+					entries++;
 					Create_AddFile(A, StripDir(A), cm, author, notes);
 				} else if (IsDir(A)) {
 					QCol->Doing("Analysing", A);
@@ -220,6 +260,7 @@ namespace Slyvina {
 					for (auto F : *D) {
 						QCol->Dark(ST(F, 75) + "\r");
 						Create_AddFile(A + "/" + F, F, cm, author, notes);
+						entries++;
 					}
 					QCol->Dark(ST("", 75) + "\r");
 				} else {
@@ -227,6 +268,12 @@ namespace Slyvina {
 					ret = 404;
 				}
 			}
+			if (!entries) {
+				QCol->Error("No entries to add!");
+				return 11;
+			}
+			QCol->Doing("Entries", entries);
+			Create_Run(fjcr, fc, PA.string_flags["s"]);
 			return ret;
 		}
 
