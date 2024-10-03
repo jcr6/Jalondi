@@ -195,6 +195,7 @@
     <ClCompile Include="Jalondi_Create.cpp" />
     <ClCompile Include="Jalondi_HEX.cpp" />
     <ClCompile Include="Jalondi_Main.cpp" />
+    <ClCompile Include="Jalondi_Script.cpp" />
     <ClCompile Include="Jalondi_Type.cpp" />
     <ClCompile Include="Jalondi_View.cpp" />
   </ItemGroup>
