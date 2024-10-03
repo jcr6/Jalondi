@@ -130,7 +130,7 @@ namespace Slyvina {
 				QCol->White(ST("MainType", 10) + " " + ST("MainCode", 10) + " " + ST("Entries", 8) + " Main File\n");
 				QCol->White(ST("========", 10) + " " + ST("========", 10) + " " + ST("=======", 8) + " =========\n");
 				for (auto m : MainCount) {
-					QCol->Magenta(ST(MainType[m.first],10)+" ");
+					QCol->Magenta(ST(MainType[m.first], 10) + " ");
 					QCol->LBlue(ST(MainCode[m.first], 10) + " ");
 					QCol->Cyan(ST(TrSPrintF("%7d", m.second), 8) + " ");
 					QCol->White(m.first + "\n");
@@ -139,7 +139,7 @@ namespace Slyvina {
 				QCol->White(ST("Storage", 10) + " Used\n");
 				QCol->White(ST("=======", 10) + " ====\n");
 				for (auto s : StorageCount) {
-					QCol->LMagenta(ST(s.first,10)+" ");
+					QCol->LMagenta(ST(s.first, 10) + " ");
 					QCol->LCyan(TrSPrintF("%4d\n", s.second));
 				}
 				std::cout << "\n\n";
@@ -161,25 +161,25 @@ namespace Slyvina {
 				std::cout << "\n\n";
 				//                    1
 				//           12345678901234
-				QCol->White("     File Type " + ST("Compressed", 12) + " "+ST("Real Size",10)+" Ratio  "+ST("MainCode",10)+" "+ST("Storage",10)+" Entry\n");
-				QCol->White("     ========= " + ST("==========", 12) + " "+ST("=========",10)+" =====  "+ST("========",10)+" "+ST("=======",10)+" =====\n");
+				QCol->White("     File Type " + ST("Compressed", 12) + " " + ST("Real Size", 10) + " Ratio  " + ST("MainCode", 10) + " " + ST("Storage", 10) + " Entry\n");
+				QCol->White("     ========= " + ST("==========", 12) + " " + ST("=========", 10) + " =====  " + ST("========", 10) + " " + ST("=======", 10) + " =====\n");
 				int ecnt{ 0 };
 				for (auto e : *ejcr) {
 					auto XT{ Upper(ExtractExt(e->Name())) };
 					String ET{ "" }; if (ExtReg.count(XT)) ET = ExtReg[XT];
 					QCol->Blue(Right("                    " + ET, 14) + " ");
 					if (e->Block())
-						QCol->Green(ST(TrSPrintF("Block #%03d", e->Block()),12) + " ");
+						QCol->Green(ST(TrSPrintF("Block #%03d", e->Block()), 12) + " ");
 					else
 						QCol->LGreen(TrSPrintF("   %9d ", e->CompressedSize()));
-					QCol->Pink(TrSPrintF(" %9d ",e->RealSize()));
+					QCol->Pink(TrSPrintF(" %9d ", e->RealSize()));
 					if (e->Storage() == "Store" || e->RealSize() == 0 || e->Block())
 						QCol->Magenta("------ ");
 					else
 						QCol->LMagenta(TrSPrintF("%5.1f%% ", ((double)e->CompressedSize() / (double)e->RealSize()) * (double)100));
-					QCol->LBlue(ST(MainCode[e->MainFile], 10)+" ");
+					QCol->LBlue(ST(MainCode[e->MainFile], 10) + " ");
 					QCol->Grey(ST(e->Storage(), 10) + " ");
-					QCol->Yellow(e->Name()+"\n");
+					QCol->Yellow(e->Name() + "\n");
 					if (PA.bool_flags["x"]) {
 						QCol->Doing("\tAuthor", e->Author());
 						QCol->Doing("\tNotes", e->Notes());
@@ -188,12 +188,21 @@ namespace Slyvina {
 						for (auto v : e->_ConfigInt) { QCol->White("int    "); QCol->Yellow(v.first); QCol->White(" = "); QCol->Cyan(TrSPrintF("%d\n", v.second)); }
 						for (auto v : e->_ConfigBool) { QCol->White("bool   "); QCol->Yellow(v.first); QCol->White(" = "); if (v.second) QCol->Green("True\n"); else QCol->Red("False\n"); }
 						for (auto v : e->_ConfigString) { QCol->White("string "); QCol->Yellow(v.first); QCol->White(" = "); QCol->LMagenta("\"" + v.second + (String)"\"\n"); }
+					}
+
+					if (PA.bool_flags["a"]) {
+						for (auto a : *ejcr) {
+							if (a->Name() != e->Name() && e->MainFile==a->MainFile && e->Block()==a->Block() && e->Offset()==a->Offset() && e->RealSize()==a->RealSize() && e->CompressedSize()==a->CompressedSize() ) {
+								QCol->Doing("Alias", a->Name());
+							}
 						}
 					}
 				}
-					
+			}
 			return ret;
+
 		}
+
 
 		void Jal_Jalondi_View() {
 			SJB("Jalondi_View.cpp");
