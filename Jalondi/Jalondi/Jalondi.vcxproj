@@ -159,6 +159,7 @@
     <ClCompile Include="..\..\..\..\Libs\Units\Source\SlyvTime.cpp" />
     <ClCompile Include="..\..\..\..\Libs\Units\Source\SlyvVolumes.cpp" />
     <ClCompile Include="Jalondi_Class.cpp" />
+    <ClCompile Include="Jalondi_Create.cpp" />
     <ClCompile Include="Jalondi_HEX.cpp" />
     <ClCompile Include="Jalondi_Main.cpp" />
     <ClCompile Include="Jalondi_Type.cpp" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp" />
+    <ClInclude Include="Jalondi_Create.hpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="..\..\..\..\Libs\JCR6\3rdParty\zlib\zlib.dll">

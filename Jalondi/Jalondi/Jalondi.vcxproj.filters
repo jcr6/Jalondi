@@ -117,9 +117,15 @@
     <ClCompile Include="Jalondi_Type.cpp">
       <Filter>Source Files\Jalondi</Filter>
     </ClCompile>
+    <ClCompile Include="Jalondi_Create.cpp">
+      <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">
+      <Filter>Header Files\Jalondi</Filter>
+    </ClInclude>
+    <ClInclude Include="Jalondi_Create.hpp">
       <Filter>Header Files\Jalondi</Filter>
     </ClInclude>
   </ItemGroup>
