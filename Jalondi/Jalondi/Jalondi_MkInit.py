@@ -58,10 +58,11 @@ print("Writing: Jalondi_Lua.hpp")
 with open("Jalondi_Lua.hpp", "w") as f:
 	f.write("\n\n // Generated for C++ implementation: "+datetime.date.today().strftime('%Y-%m-%d')+"\n\n\n\nconst char* Lua_Jalondi {\n\t\"-- Intern --\\n\"\n");
 	for l in Lua:
-		sl = l.replace("\t","\\t");
-		sl = sl.replace("\"","\\\"");
+		sl = l.replace("\\","\x5c")
+		sl = sl.replace("\t","\\t");
+		sl = sl.replace("\"","\x22");
 		sl = sl.replace("\r","")
 		sl = sl.replace("\n","")
 		f.write("\t\"%s\\n\"\n"%sl)
-	f.write("}\n\n");
+	f.write("};\n\n");
 print("Ok");
