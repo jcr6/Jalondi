@@ -33,6 +33,7 @@
 #include "Jalondi_Class.hpp"
 #include "Jalondi_Create.hpp"
 #include "Jalondi_Lua.hpp"
+#include <SlyvDir.hpp>
 using namespace Slyvina::Lunatic;
 
 using namespace Slyvina::Units;
@@ -70,6 +71,11 @@ namespace Slyvina {
 			_StaakAlles = true; 
 			return 0;
 		}
+		static void LEr(lua_State *L,String Msg,bool staken=true) {
+			QCol->Error("Error in Lua script: " + Msg); QCol->Reset();
+			luaL_loadstring(L,"print(debug.traceback())");
+			_StaakAlles = _StaakAlles || staken;
+		}
 
 		static int JA_Love(lua_State* L) {
 			// Test message and also a nice easter egg.
@@ -92,11 +98,89 @@ namespace Slyvina {
 			Lunatic_PushString(L, ExtractExt(F));
 			return 3;
 		}
-		
+
+		static int JA_Clear(lua_State* L) {
+			Create_Clear();
+			return 0;
+		}
+
+		static int JA_Add(lua_State* L) {
+			auto Source{ Lunatic_CheckString(L,1) };
+			FileToAdd F2A{
+				Source,
+				Lunatic_OptString(L,2,StripDir(Source)),
+				Lunatic_OptString(L,3,"Store"),
+				Lunatic_OptString(L,4,""), // Author
+				Lunatic_OptString(L,5,""), // Notes
+				Lunatic_OptString(L,6,"") // Block
+			};
+			if (IsFile(Source))
+				Create_AddFile(F2A);
+			else if (IsDir(Source)) {
+				if (!Suffixed(F2A.Target, "/")) F2A.Target += "/";
+				auto Tree = GetTree(F2A.Source);
+				for (auto f : *Tree) {
+					Create_AddFile(Source + "/" + f, F2A.Target + f, F2A.Storage, F2A.Author, F2A.Notes, F2A.Block);
+				}
+			}
+			return 0;
+		}
+
+		static int JA_Import(lua_State* L) {
+			Create_AddPatch(luaL_checkstring(L, 1), PatchType::Import);
+			return 0;
+		}
+		static int JA_Require(lua_State* L) {
+			Create_AddPatch(luaL_checkstring(L, 1), PatchType::Require);
+			return 0;
+		}
+		static int JA_Alias(lua_State* L) {
+			Create_Alias(luaL_checkstring(L, 1), luaL_checkstring(L, 2));
+			return 0;
+		}
+		static int JA_PWD(lua_State* L) {
+			Lunatic_PushString(L, CurrentDir());
+			return 1;
+		}
+		static int JA_Dir(lua_State* L) {
+			static VecString _Dir{ NewVecString() };
+			switch(luaL_checkinteger(L,1)){
+			case 1: // get
+				_Dir = GetTree(Lunatic_OptString(L, 2, CurrentDir()));
+				lua_pushinteger(L, _Dir->size());
+				return 1;
+			case 2: // Check File
+			{
+				auto idx{ luaL_checkinteger(L,2) };
+				if (idx >= _Dir->size()) { LEr(L, TrSPrintF("Too high dir index (%d>=%d)", idx, _Dir->size())); return 0; }
+				Lunatic_PushString(L, (*_Dir)[idx]);
+				return 1;
+			}
+			}
+		}
+
+		static int JA_Start(lua_State* L) {
+			Create_Run(
+				Lunatic_CheckString(L, 1),
+				Lunatic_OptString(L, 2, "Store"),
+				Lunatic_OptString(L, 3, "*AUTO")
+			);
+			return 0;
+		}
+
 		static std::map<String, lua_CFunction> Jalondi_API{
 			{ "LOVE", JA_Love },
 			{ "DOING", JA_Doing },
-			{ "FSPLIT", JA_FSplit }
+			{ "FSPLIT", JA_FSplit },
+			{ "CLEAR", JA_Clear },
+			{ "ADD", JA_Add },
+			{ "IMPORT", JA_Import },
+			{ "REQUIRE", JA_Require },
+			{ "ALIAS", JA_Alias },
+			{ "PWD", JA_PWD },
+			{ "DIR_TRUE_IGNORE",JA_Dir },
+			{ "START", JA_Start },
+			{ "RUN",JA_Start }
 		};
 #pragma endregion
 
@@ -130,6 +214,7 @@ namespace Slyvina {
 
 		static int Script_Go(int c, char** a) {
 			_StaakAlles = false;
+			Create_Clear();
 			QCol->Doing("Preparing", "Lua State");
 			String
 				Script{ a[2] },
