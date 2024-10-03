@@ -184,8 +184,14 @@ namespace Slyvina {
 						QCol->Doing("\tAuthor", e->Author());
 						QCol->Doing("\tNotes", e->Notes());
 					}
+					if (PA.bool_flags["xd"]) {
+						for (auto v : e->_ConfigInt) { QCol->White("int    "); QCol->Yellow(v.first); QCol->White(" = "); QCol->Cyan(TrSPrintF("%d\n", v.second)); }
+						for (auto v : e->_ConfigBool) { QCol->White("bool   "); QCol->Yellow(v.first); QCol->White(" = "); if (v.second) QCol->Green("True\n"); else QCol->Red("False\n"); }
+						for (auto v : e->_ConfigString) { QCol->White("string "); QCol->Yellow(v.first); QCol->White(" = "); QCol->LMagenta("\"" + v.second + (String)"\"\n"); }
+						}
+					}
 				}
-			}		
+					
 			return ret;
 		}
 
