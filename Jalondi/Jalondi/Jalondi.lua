@@ -42,6 +42,15 @@ function JALONDI_CHOPFILE(f)
 	return ret
 end
 
+function JALONDI_DIR(f)
+	local s=Jalondi.DIR_TRUE_IGNORE(1,f or Jalondi.PWD)
+	local r={}
+	for i=0,s-1 do
+		r[#r+1]=Jalondi.DIR_TRUE_IGNORE(2,i)
+	end
+	return r
+end
+
 function Meta.__index(s,idx)	
 	if type(idx)=='number' then
 		return s.___args[idx]
@@ -52,6 +61,8 @@ function Meta.__index(s,idx)
 		return #s.___args
 	elseif idx=='SCRIPT' then
 		return s.___args.script		
+	elseif idx=='PWD' then
+		return s.___true.PWD()
 	elseif s.___true[idx] then
 		return s.___true[idx]
 	else
