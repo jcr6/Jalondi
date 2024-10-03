@@ -25,17 +25,36 @@
 // EndLic
 
 #include <SlyvRoman.hpp>
+#include <SlyvString.hpp>
+
+#include <JCR6_Write.hpp>
 
 #include "Jalondi_Create.hpp"
 #include "Jalondi_Class.hpp"
+#include <SlyvTime.hpp>
+#include <SlyvMD5.hpp>
+#include <SlyvQCol.hpp>
 
 using namespace Slyvina::Units;
+using namespace Slyvina::JCR6;
+
+#define Err(abc) QCol->Error(TrSPrintF("%03d:",++errors)+abc)
+#define ErrB(abc) {QCol->Error(TrSPrintF("%03d:",++errors)+abc); break; }
+#define J6E \
+	if (Last()->Error) {\
+		QCol->Error(Last()->ErrorMessage);\
+		QCol->Doing("Main",Last()->MainFile);\
+		QCol->Doing("Entry",Last()->Entry);\
+		QCol->Red("Error is fatal! Aborting operation! Please note created JCR6 files MAY be corrupted and unusable!\\n\n");\
+		return;\
+	}
 
 namespace Slyvina {
 	namespace Jalondi {
 		static std::vector<FileToAdd> _FilesToAdd{};
 		static std::vector<EntryToAlias> _EntriesToAlias{};
-		static std::map<String, Int32> _BlockNums{};
+		static std::vector<PatchToAdd> _PatchesToAdd{};
+		static std::map<String, JT_CreateBlock> _BlockNums{};
 
 		void Slyvina::Jalondi::Create_Clear() { 
 			_FilesToAdd.clear(); 
@@ -51,27 +70,63 @@ namespace Slyvina {
 					BlockTag = "BLOCK " + ToRoman(i++);
 				} while (_BlockNums.count(BlockTag));								
 			} else { BlockTag = F2A.Block; }
-			_BlockNums[BlockTag] = 0; // Actual numbers will be filled in once the packing is running
+			_BlockNums[BlockTag] = nullptr; // Actual numbers will be filled in once the packing is running
 			return BlockTag;
 		}
 
-		String Create_AddFile(String Source, String Target, String Storage, String Block) {
-			FileToAdd F2A{ Source,Target,Storage,Block };
+		String Create_AddFile(String Source, String Target, String Storage, String Author, String Notes, String Block) {
+			FileToAdd F2A{ Source,Target,Storage,Author,Notes,Block };
 			return Create_AddFile(F2A);
 		}
 
-		String Create_Alias(EntryToAlias E2A) { _EntriesToAlias.push_back(E2A); }
+		void Create_Alias(EntryToAlias E2A) { _EntriesToAlias.push_back(E2A); }
 
-		String Create_Alias(String Source, String Alias) {
+		void Create_Alias(String Source, String Alias) {
 			EntryToAlias E2A{ Source,Alias };
 			Create_Alias(E2A);
 		}
 
+		void Create_AddPatch(PatchToAdd P2A) { _PatchesToAdd.push_back(P2A); }
 
+		void Create_AddPatch(String Source, PatchType PT, String Prefix) {
+			PatchToAdd P2A{ Source,Prefix,PT };
+			Create_AddPatch(P2A);
+		}
+
+		void Create_Run(String JCR6File, String Storage, String Signature) {
+			QCol->Doing("Creating", JCR6File);
+			uint32 errors{ 0 };
+			auto Sig{ Signature }; if (Upper(Sig) == "*AUTO") Sig = md5(JCR6File + "." + Storage + "." + CurrentTime() + "." + CurrentDate());
+			auto JO{ CreateJCR6(JCR6File,Storage,Sig) }; J6E;
+			QCol->Doing("FT Storage", Storage);
+			if (Sig.size()) QCol->Doing("Signature", Sig);
+			for (auto F2A : _FilesToAdd) {
+				QCol->Doing("Freezing", F2A.Source, " ");
+				if (!FileExists(F2A.Source)) ErrB("Source file not found!");
+				if (!GetCompDrivers()->count(F2A.Storage)){
+					Err("Storage method '" + F2A.Storage + "' not found -- Storing!");
+					F2A.Storage = "Store";
+					QCol->Doing("Freezing", F2A.Source, " ");
+				}
+				if (JO->Entries.count(Upper(F2A.Target))) {
+					ErrB("Duplicate target name: " + F2A.Target);
+				}
+				if (F2A.Block.size()) {					
+					if (!_BlockNums[F2A.Block]) {
+						_BlockNums[F2A.Block] = JO->AddBlock(F2A.Storage); J6E;
+						QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[F2A.Block]->ID()));
+					}
+					_BlockNums[F2A.Block]->AddFile(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
+
+				}
+			}
+		}
 
 		void Jal_Jalondi_Create() {
 			SJB("Jalondi_Create");
 			J_Action JC{ "create",nullptr,nullptr,"Create new JCR file" };
 		}
+
+		
 	}
 }

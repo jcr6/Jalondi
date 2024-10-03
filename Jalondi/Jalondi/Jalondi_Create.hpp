@@ -36,6 +36,8 @@ namespace Slyvina {
 				Source{ "" },
 				Target{ "" },
 				Storage{ "" },
+				Author{ "" },
+				Notes{ "" },
 				Block{ "" };
 		};
 		struct EntryToAlias {
@@ -43,7 +45,7 @@ namespace Slyvina {
 				Source{ "" },
 				Alias{ "" };
 		};
-		struct PatchesToAdd {
+		struct PatchToAdd {
 			String
 				Source{ "" },
 				Prefix{ "" };
@@ -53,8 +55,12 @@ namespace Slyvina {
 
 		void Create_Clear();
 		String Create_AddFile(FileToAdd& F2A);
-		String Create_AddFile(String Source, String Target, String Storage = "Store", String Block = "");
-		String Create_Alias(EntryToAlias E2A);
-		String Create_Alias(String Source, String Alias);
+		String Create_AddFile(String Source, String Target, String Storage = "Store", String Author="",String Notes="", String Block = "");
+		void Create_Alias(EntryToAlias E2A);
+		void Create_Alias(String Source, String Alias, String Signature="*AUTO");
+		void Create_AddPatch(PatchToAdd P2A);
+		void Create_AddPatch(String Source, PatchType PT = PatchType::Import, String Prefix = "");
+
+
 	}
 }
