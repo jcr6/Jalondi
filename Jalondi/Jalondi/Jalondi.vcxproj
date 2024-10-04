@@ -193,6 +193,7 @@
     <ClCompile Include="..\..\..\..\Libs\Units\Source\SlyvVolumes.cpp" />
     <ClCompile Include="Jalondi_Class.cpp" />
     <ClCompile Include="Jalondi_Create.cpp" />
+    <ClCompile Include="Jalondi_Extract.cpp" />
     <ClCompile Include="Jalondi_HEX.cpp" />
     <ClCompile Include="Jalondi_Main.cpp" />
     <ClCompile Include="Jalondi_Script.cpp" />

@@ -228,6 +228,9 @@
     <ClCompile Include="Jalondi_Script.cpp">
       <Filter>Source Files\Jalondi</Filter>
     </ClCompile>
+    <ClCompile Include="Jalondi_Extract.cpp">
+      <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">
