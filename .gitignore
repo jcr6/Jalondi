@@ -11,3 +11,4 @@ Test.jcr
 Test*.jcr
 Jalondi/Jalondi/Jalondi_Lua.hpp
 test.lua
+*.o
