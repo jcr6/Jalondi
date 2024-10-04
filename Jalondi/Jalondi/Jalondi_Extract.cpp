@@ -23,14 +23,35 @@
 // 
 // Version: 24.10.04
 // EndLic
+
 #include "Jalondi_Class.hpp"
+#include <SlyvQCol.hpp>
+
+using namespace Slyvina::Units;
 
 namespace Slyvina {
 	namespace Jalondi {
+
+#pragma region Action!
+		static void _xExplain() {
+			QCol->White("Will show all the contents of a JCR6 resource (including all external files it's been linked to)\n\n");
+			QCol->Magenta("Usage: ");
+			QCol->Yellow(StripAll(Jalondi_Exe));
+			QCol->LGreen(" extract ");
+			QCol->LCyan(" [<switches>] ");
+			QCol->Pink(" <JCR6 file> ");
+			QCol->Grey(" [<entries>]\n");
+			QCol->Red("NOTE! "); QCol->Yellow("When no entries are given, all entries will be extracted");
+			QCol->LMagenta("\n\nAllowed switches\n");
+			QCol->Yellow("-w       \t"); QCol->Cyan("Enable Westwoord PAK files\n");
+			QCol->Yellow("-o <dir> \t"); QCol->Cyan("Define output dir (current dir is default)");
+		}
+#pragma endregion
+
 #pragma region Init
 		void Jal_Jalondi_Extract() {
 			SJB("Jalondi_Extract.cpp");
-			J_Action A{ "extract",nullptr,nullptr,"Extracts from JCR6 or packed files JCR6 can read" };
+			J_Action A{ "extract",nullptr,_xExplain,"Extracts from JCR6 or packed files JCR6 can read" };
 		}
 #pragma endregion
 	}
