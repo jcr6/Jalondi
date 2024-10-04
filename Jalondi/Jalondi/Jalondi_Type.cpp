@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.03
+// Version: 24.10.04
 // EndLic
 #include "Jalondi_Class.hpp"
 #include <SlyvQCol.hpp>
@@ -78,7 +78,7 @@ namespace Slyvina {
 				return 3;
 			}
 			for (int i = 2; i < PA.arguments.size(); i++) {
-				QCol->Doing(TrSPrintF("%d/%d: Hexing", i - 1, PA.arguments.size() - 2), PA.arguments[i]);
+				QCol->Doing(TrSPrintF("%d/%d: Showing", i - 1, PA.arguments.size() - 2), PA.arguments[i]);
 				auto BT = rjcr->B(PA.arguments[i]);
 				if (Last()->Error) {
 					QCol->Error(Last()->ErrorMessage);
