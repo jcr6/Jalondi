@@ -21,7 +21,7 @@
 -- Please note that some references to data like pictures or audio, do not automatically
 -- fall under this licenses. Mostly this is noted in the respective files.
 -- 
--- Version: 24.10.03
+-- Version: 24.10.04
 -- </License Block>
 
 
@@ -61,8 +61,8 @@ function Meta.__index(s,idx)
 		return #s.___args
 	elseif idx=='SCRIPT' then
 		return s.___args.script		
-	elseif idx=='PWD' then
-		return s.___true.PWD()
+	elseif idx=='PWD' or idx=='PLATFORM' then
+		return s.___true[idx]()
 	elseif s.___true[idx] then
 		return s.___true[idx]
 	else

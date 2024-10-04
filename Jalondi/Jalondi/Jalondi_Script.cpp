@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.03
+// Version: 24.10.04
 // EndLic
 
 #include <Lunatic.hpp>
@@ -158,6 +158,10 @@ namespace Slyvina {
 			}
 			}
 		}
+		static int JA_Platform(lua_State* L) {
+			Lunatic_PushString(L, Platform(luaL_optinteger(L, 1, 1)));
+			return 1;
+		}
 
 		static int JA_Start(lua_State* L) {
 			Create_Run(
@@ -179,6 +183,7 @@ namespace Slyvina {
 			{ "ALIAS", JA_Alias },
 			{ "PWD", JA_PWD },
 			{ "DIR_TRUE_IGNORE",JA_Dir },
+			{ "PLATFORM",JA_Platform },
 			{ "START", JA_Start },
 			{ "RUN",JA_Start }
 		};
