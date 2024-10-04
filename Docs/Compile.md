@@ -7,7 +7,7 @@ To build
 - Lua
 
 ## Preparation instructions
-I will assume you do this from Windows PowerShell and that you have git installed
+I will assume you do this from Windows PowerShell and that you have git installed. Since the building configuration uses a Python script to generate two header files that are not part of the repository, Python must be installed. I used Python 3.12.6, but I guess any version of Python 3 should do.
 - You need a folder dedicated to Slyvina projects, of which Jalondi is one. I will call it S:\Slyvina for this documentation, so you can substitute that with your own directory.
 - Type: cd S:\Slyvina
 - Create the following folders "Libs", "Tools" (you may create "Apps" if you like to go for my Apps in the Slyvina framework, but for Jalondi you don't need it).
