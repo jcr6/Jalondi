@@ -30,9 +30,15 @@ An 'alias' is in JCR6 just a file that has the same referrence pointer data than
 In game creation it can sometimes come in handy, trust me. 
 You should NOT confuse this with the alias system in Unix/Linux, as that works slightly different, I'm afraid.
 
-### property table Args
-An array for all given parameters or arguments or whatever you gave to the script when starting Jalondi to run it.
+### property ing Args
+Contains the number of arguments given with the script when starting Jalondi to run it.
+You can use the Jalondi module itself to get the arguments. 
 Please note, this is Lua, so arrays start at 1. Hey, I didn't come up with that silly thing about Lua, it's just the way Lua works.
+So if you run: 
+~~~sh
+Jalondi script myscript.lua I am Jeroen
+~~~
+Jalondi.Args will contain the number 3, and Jalondi[1] will contain the string "I", Jalondi[2] will contain the string "am" and Jalondi[3] will contain the string "Jeroen".
 
 
 ### table Jalondi.ChopFile(string file)
