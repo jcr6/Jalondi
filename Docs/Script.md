@@ -30,7 +30,7 @@ An 'alias' is in JCR6 just a file that has the same referrence pointer data than
 In game creation it can sometimes come in handy, trust me. 
 You should NOT confuse this with the alias system in Unix/Linux, as that works slightly different, I'm afraid.
 
-### property ing Args
+### property int Args
 Contains the number of arguments given with the script when starting Jalondi to run it.
 You can use the Jalondi module itself to get the arguments. 
 Please note, this is Lua, so arrays start at 1. Hey, I didn't come up with that silly thing about Lua, it's just the way Lua works.
@@ -88,7 +88,7 @@ Will create the JCR6 with the data collected before. Please note, the data will 
 Will print a formatted string. Same as printf() function in C, however unlike C it will go to the next line.
 Please note, printf is not a member of the Jalondi module.
 
-### sting sprintf(string fmt,...)
+### string sprintf(string fmt,...)
 Same as string.format. Please note that this is not a member of Jalondi, but Jalondi adds it anyway
 
 
