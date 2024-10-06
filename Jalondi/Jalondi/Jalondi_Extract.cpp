@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.04
+// Version: 24.10.06
 // EndLic
 
 #include "Jalondi_Class.hpp"
