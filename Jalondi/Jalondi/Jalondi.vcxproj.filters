@@ -40,6 +40,9 @@
     <Filter Include="Source Files\Slyvina\Lunatic\lua">
       <UniqueIdentifier>{ae2ff49f-0209-4550-bf19-fe5259671fb9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Slyvina\Kitty">
+      <UniqueIdentifier>{820dd8d4-a7a6-43d1-b539-0f94b058a40e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jalondi_Main.cpp">
@@ -230,6 +233,75 @@
     </ClCompile>
     <ClCompile Include="Jalondi_Extract.cpp">
       <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
+    <ClCompile Include="Jalondi_sView.cpp">
+      <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\Kitty_High.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBASIC.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBlitzBasic.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBlitzMax.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBrainfuck.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighC.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighCobra.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighCS.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighGo.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighHTML.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighINI.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighJava.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighJavaScript.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighNeil.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighNIL.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighPascal.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighPython.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighSASKIA.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighScyndi.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighVisualBasic.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighWhiteSpace.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighXML.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

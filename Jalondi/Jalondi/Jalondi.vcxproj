@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>E:\Projects\Applications\Slyvina\Libs\Lunatic;E:\Projects\Applications\Slyvina\Libs\Lunatic\Lua\Raw\src;E:\Projects\Applications\Slyvina\Libs\JCR6\Headers;E:\Projects\Applications\Slyvina\Libs\JCR6\3rdParty\zlib;E:\Projects\Applications\Slyvina\Libs\Units\Headers;$(IncludePath)</IncludePath>
+    <IncludePath>E:\Projects\Applications\Slyvina\Libs\Kitty\Headers;E:\Projects\Applications\Slyvina\Libs\Lunatic;E:\Projects\Applications\Slyvina\Libs\Lunatic\Lua\Raw\src;E:\Projects\Applications\Slyvina\Libs\JCR6\Headers;E:\Projects\Applications\Slyvina\Libs\JCR6\3rdParty\zlib;E:\Projects\Applications\Slyvina\Libs\Units\Headers;$(IncludePath)</IncludePath>
     <OutDir>Exe</OutDir>
     <LibraryPath>E:\Projects\Applications\Slyvina\Libs\JCR6\3rdParty\zlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -144,6 +144,28 @@
     <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_Westwood.cpp" />
     <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_Write.cpp" />
     <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_zlib.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBASIC.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBlitzBasic.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBlitzMax.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBrainfuck.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighC.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighCobra.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighCS.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighGo.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighHTML.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighINI.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighJava.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighJavaScript.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighNeil.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighNIL.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighPascal.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighPython.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighSASKIA.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighScyndi.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighVisualBasic.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighWhiteSpace.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighXML.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\Kitty_High.cpp" />
     <ClCompile Include="..\..\..\..\Libs\Lunatic\Lua\Raw\src\lapi.c" />
     <ClCompile Include="..\..\..\..\Libs\Lunatic\Lua\Raw\src\lauxlib.c" />
     <ClCompile Include="..\..\..\..\Libs\Lunatic\Lua\Raw\src\lbaselib.c" />
@@ -199,6 +221,7 @@
     <ClCompile Include="Jalondi_Script.cpp" />
     <ClCompile Include="Jalondi_Type.cpp" />
     <ClCompile Include="Jalondi_View.cpp" />
+    <ClCompile Include="Jalondi_sView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\Libs\Lunatic\Lua\Raw\src\lapi.h" />
