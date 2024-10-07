@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.03
+// Version: 24.10.08
 // EndLic
 
 #include <SlyvRoman.hpp>
@@ -60,10 +60,13 @@ namespace Slyvina {
 		static std::vector<EntryToAlias> _EntriesToAlias{};
 		static std::vector<PatchToAdd> _PatchesToAdd{};
 		static std::map<String, JT_CreateBlock> _BlockNums{};
+		static bool Merge1{ false }, Merge2{ false };
 
-		void Slyvina::Jalondi::Create_Clear() {
+		void Create_Clear() {
 			_FilesToAdd.clear();
 			_BlockNums.clear();
+			Merge1 = false;
+			Merge2 = false;
 		}
 
 		String Create_AddFile(FileToAdd& F2A) {
@@ -103,6 +106,7 @@ namespace Slyvina {
 		void Create_Run(String JCR6File, String Storage, String Signature) {
 			try {
 				QCol->Doing("Creating", JCR6File);
+				QCol->Doing("Merge", boolstring(Merge1) + "::" + boolstring(Merge2));
 				uint32 errors{ 0 };
 				auto Sig{ Signature }; if (Upper(Sig) == "*AUTO") Sig = md5(JCR6File + "." + Storage + "." + CurrentTime() + "." + CurrentDate());
 				auto JO{ CreateJCR6(JCR6File,Storage,Sig) }; J6E;
@@ -111,29 +115,70 @@ namespace Slyvina {
 				for (auto F2A : _FilesToAdd) {
 					QCol->Doing("Freezing", F2A.Source, " ");
 					if (!FileExists(F2A.Source)) ErrB("Source file not found!");
-					if (!GetCompDrivers()->count(F2A.Storage)) {
-						Err("Storage method '" + F2A.Storage + "' not found -- Storing!");
-						F2A.Storage = "Store";
-						QCol->Doing("Freezing", F2A.Source, " ");
-					}
-					if (JO->Entries.count(Upper(F2A.Target))) {
-						ErrB("Duplicate target name: " + F2A.Target);
-					}
-					if (F2A.Block.size()) {
-						if (!_BlockNums[F2A.Block]) {
-							_BlockNums[F2A.Block] = JO->AddBlock(F2A.Storage); J6E;
-							QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[F2A.Block]->ID()));
+					if ((Merge1 || Merge2) && _JT_Dir::Recognize(F2A.Source) != "NONE") {
+						std::cout << "\r";
+						QCol->Doing("Merging", F2A.Source);
+						auto JI{ JCR6_Dir(F2A.Source) }; J6E;
+						auto JEntries{ JI->Entries() };
+						for (auto ment : *JEntries) {
+							if (Merge2 && ment->Block() == 0) {
+								QCol->Doing("Copying", "","");
+								QCol->Magenta(F2A.Source + "/");
+								QCol->LCyan(ment->Name());
+								JO->JCRCopy(JI, ment->Name(), F2A.Target + "/" + ment->Name());	J6E;
+								QCol->Yellow("\r Copied\n");
+							} else if (ment->Block()) {
+								QCol->Doing("Reblocking", "","");
+								QCol->Magenta(F2A.Source + "/");
+								QCol->LCyan(ment->Name());
+								auto BlockTag{ TrSPrintF(String("::MERGE::" + ment->MainFile + "::%08x::").c_str(),ment->Block()) };
+								if (!_BlockNums[BlockTag]) {
+									_BlockNums[BlockTag] = JO->AddBlock(F2A.Storage); J6E;
+									QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[BlockTag]->ID()));
+								}
+								auto B{ JI->B(ment->Name()) }; J6E;
+								_BlockNums[BlockTag]->AddBank(B, F2A.Target + "/" + ment->Name(),  ment->Author(), ment->Notes()); J6E;
+								QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[BlockTag]->ID()));
+							} else {
+								QCol->Doing("Refreezing", "","");
+								QCol->Magenta(F2A.Source + "/");
+								QCol->LCyan(ment->Name()+" ");
+								auto B{ JI->B(ment->Name()) }; J6E;
+								JO->AddBank(B, F2A.Target + "/" + ment->Name(), F2A.Storage, ment->Author(), ment->Notes()); J6E;
+								auto e{ JO->Entries[Upper(F2A.Target+"/"+ment->Name())]};
+								if (e->Storage() == "Store")
+									QCol->White("\rStored:    \n");
+								else {
+									QCol->LGreen(e->Storage() + "\r");
+									QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
+								}
+							}
 						}
-						_BlockNums[F2A.Block]->AddFile(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
-						QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[F2A.Block]->ID()));
 					} else {
-						JO->AddFile(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
-						auto e{ JO->Entries[Upper(F2A.Target)] };
-						if (e->Storage() == "Store")
-							QCol->White("\rStored:   \n");
-						else {
-							QCol->LGreen(e->Storage() + "\r");
-							QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
+						if (!GetCompDrivers()->count(F2A.Storage)) {
+							Err("Storage method '" + F2A.Storage + "' not found -- Storing!");
+							F2A.Storage = "Store";
+							QCol->Doing("Freezing", F2A.Source, " ");
+						}
+						if (JO->Entries.count(Upper(F2A.Target))) {
+							ErrB("Duplicate target name: " + F2A.Target);
+						}
+						if (F2A.Block.size()) {
+							if (!_BlockNums[F2A.Block]) {
+								_BlockNums[F2A.Block] = JO->AddBlock(F2A.Storage); J6E;
+								QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[F2A.Block]->ID()));
+							}
+							_BlockNums[F2A.Block]->AddFile(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
+							QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[F2A.Block]->ID()));
+						} else {
+							JO->AddFile(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
+							auto e{ JO->Entries[Upper(F2A.Target)] };
+							if (e->Storage() == "Store")
+								QCol->White("\rStored:   \n");
+							else {
+								QCol->LGreen(e->Storage() + "\r");
+								QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
+							}
 						}
 					}
 				}
@@ -198,7 +243,11 @@ namespace Slyvina {
 			QCol->Yellow("-n <notes>\t"); QCol->Cyan("Set Notes\n");
 			QCol->Yellow("-imp <imports>\t"); QCol->Cyan("Import external JCR6 files. All must be in 1 argument divided by semi-colons\n");
 			QCol->Yellow("-req <imports>\t"); QCol->Cyan("Require external JCR6 files. All must be in 1 argument divided by semi-colons\n");
+			QCol->Yellow("-m            \t"); QCol->Cyan("Merge files recognized as files processable by JCR6 into the new file as folder\n");
+			QCol->Yellow("-m2           \t"); QCol->Cyan("Similar to -m but (if possible) will not repack, but just copy the lump of data\n");
 			QCol->Yellow("-y\t"); QCol->Cyan("Answer all yes/no questions with 'yes'\n");
+			QCol->Grey("-m2 is mostly faster than just -m, but if it preferable to just copy the lump without repacking?\nWhen -m and -m2 are used together -m will be ignored.\n\n");
+			QCol->Grey("Entries in blocks will always be repacked, but when using -m2 (and not using Store) entries in blocks will also end up in a block in the target resource.\n\n\n");
 		}
 
 		static bool _Yes(String Question,bool alwaysyes) {
@@ -228,7 +277,9 @@ namespace Slyvina {
 			AddFlag_String(f, "a", "");
 			AddFlag_String(f, "n", "");
 			AddFlag_String(f, "imp", "");
-			AddFlag_String(f, "req", "");
+			AddFlag_String(f, "req", "");			
+			AddFlag_Bool(f, "m", false);
+			AddFlag_Bool(f, "m2", false);
 			auto PA{ ParseArg(car,arg,f) };
 			auto fjcr{ ChReplace(PA.arguments[1],'\\','/') };
 			auto cm{ PA.string_flags["cm"] };
@@ -250,9 +301,10 @@ namespace Slyvina {
 				AddStuff.push_back(ChReplace(CurrentDir(), '\\', '/'));
 			} else for (int i = 2; i < PA.arguments.size(); i++) AddStuff.push_back(ChReplace(PA.arguments[i], '\\', '/'));
 			Create_Clear();
+			Merge1 = PA.bool_flags["m"];  Merge2 = PA.bool_flags["m2"];
 			auto entries{ 0 };
 			for (auto A : AddStuff) {
-				if (IsFile(A)) {
+				if (IsFile(A)) {					
 					entries++;
 					Create_AddFile(A, StripDir(A), cm, author, notes);
 				} else if (IsDir(A)) {
