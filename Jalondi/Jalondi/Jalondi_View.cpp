@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.03
+// Version: 24.10.07
 // EndLic
 
 #include <SlyvArgParse.hpp>
@@ -166,6 +166,7 @@ namespace Slyvina {
 				QCol->White("     ========= " + ST("==========", 12) + " " + ST("=========", 10) + " =====  " + ST("========", 10) + " " + ST("=======", 10) + " =====\n");
 				int ecnt{ 0 };
 				for (auto e : *ejcr) {
+					ecnt++;
 					auto XT{ Upper(ExtractExt(e->Name())) };
 					String ET{ "" }; if (ExtReg.count(XT)) ET = ExtReg[XT];
 					QCol->Blue(Right("                    " + ET, 14) + " ");
@@ -199,6 +200,7 @@ namespace Slyvina {
 						}
 					}
 				}
+				QCol->Cyan(TrSPrintF("%9d", ecnt)); if (ecnt == 1) QCol->Yellow(" entry in this resource\n\n"); else QCol->Yellow(" entries in this resource\n\n");
 			}
 			return ret;
 
