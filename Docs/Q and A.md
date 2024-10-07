@@ -3,6 +3,7 @@
 
 Question | Answer
 ---|---
+How do I pronounce "Jalondi"? | Yah Lon Dee, which which all vowels should pretty short. The 'a' in the first syllable sounds like it sounds in "dance" in UK English, but shorter. Now practise. 😁
 Why do Westwood PAK files always require the -w switch | Because Westwood PAK files are a downright drama to support. The format is downright terrible and due to this it easily the detection of other kinds of resources. Westwood has no kind of headers whatsoever to make them fully detectable. So not loading the Westwood driver unless needed to handle Westwood PAK files is the better way to go.
 Why the Jalondi project? The original tools weren't good enough? | I have one tool written in Go, and I am not really game to get much more done in Go. The NJCR tool will be discontinued as soon as Jalondi is stable. I want to get rid of the .NET for my projects. On top op that NJCR has a few nasty bugs I could never get fixed (in other words COCKROACHES), and hopefully Jalondi will get me rid of those as well.
 Why the name "Jalondi"? | I just needed a name. Jalondi is a woman who plays a role in my fantasy novel "De Vleugels Des Oorlogs" (The Wings of War). I named this tool after her. There are more projects of mine that got their name in similar ways.
