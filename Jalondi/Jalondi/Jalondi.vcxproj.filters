@@ -43,6 +43,12 @@
     <Filter Include="Source Files\Slyvina\Kitty">
       <UniqueIdentifier>{820dd8d4-a7a6-43d1-b539-0f94b058a40e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Slyvina">
+      <UniqueIdentifier>{df852e69-a6ef-463b-a63b-a8ec67d885ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Slyvina\Units">
+      <UniqueIdentifier>{fd1caa04-cb8d-464a-beb5-f96ee12e2757}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Jalondi_Main.cpp">
@@ -303,6 +309,9 @@
     <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighXML.cpp">
       <Filter>Source Files\Slyvina\Kitty</Filter>
     </ClCompile>
+    <ClCompile Include="Jalondi_Convert.cpp">
+      <Filter>Source Files\Jalondi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">
@@ -397,6 +406,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\Libs\Lunatic\Lua\Raw\src\lapi.h">
       <Filter>Source Files\Slyvina\Lunatic\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Libs\Units\Headers\SlyvDir.hpp">
+      <Filter>Header Files\Slyvina\Units</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\Libs\Units\Headers\SlyvString.hpp">
+      <Filter>Header Files\Slyvina\Units</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -214,6 +214,7 @@
     <ClCompile Include="..\..\..\..\Libs\Units\Source\SlyvTime.cpp" />
     <ClCompile Include="..\..\..\..\Libs\Units\Source\SlyvVolumes.cpp" />
     <ClCompile Include="Jalondi_Class.cpp" />
+    <ClCompile Include="Jalondi_Convert.cpp" />
     <ClCompile Include="Jalondi_Create.cpp" />
     <ClCompile Include="Jalondi_Extract.cpp" />
     <ClCompile Include="Jalondi_HEX.cpp" />
@@ -253,6 +254,8 @@
     <ClInclude Include="..\..\..\..\Libs\Lunatic\Lua\Raw\src\lvm.h" />
     <ClInclude Include="..\..\..\..\Libs\Lunatic\Lua\Raw\src\lzio.h" />
     <ClInclude Include="..\..\..\..\Libs\Lunatic\Lunatic.hpp" />
+    <ClInclude Include="..\..\..\..\Libs\Units\Headers\SlyvDir.hpp" />
+    <ClInclude Include="..\..\..\..\Libs\Units\Headers\SlyvString.hpp" />
     <ClInclude Include="Jalondi_Class.hpp" />
     <ClInclude Include="Jalondi_Create.hpp" />
   </ItemGroup>

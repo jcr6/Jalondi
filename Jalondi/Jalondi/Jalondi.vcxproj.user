@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LocalDebuggerCommandArguments>stype "E:\Projects\Applications\Apollo\Games\The Fairy Tale Revamped\Debug\The Fairy Tale REVAMPED.jcr" Script/Flow/FlowMaster.neil Script/MapScript/CH2_Town_Doubline.neil ID/Medals/Medals.ini</LocalDebuggerCommandArguments>
+    <LocalDebuggerCommandArguments>convert E:\Projects\Applications\Slyvina\Libs\Units\TestUnits.ARJ E:\Projects\Applications\Slyvina\Libs\Units\TestUnits.zip</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>
