@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.03
+// Version: 24.10.08
 // EndLic
 #pragma once
 #include <Slyvina.hpp>
@@ -45,7 +45,7 @@ namespace Slyvina {
 			static std::map<std::string, J_Build> _Register;
 			std::string _Date{ "" }, _Time{ "" };
 		public:
-			inline J_Build() {};
+			J_Build();
 			J_Build(std::string Source, std::string D, std::string T);
 			inline std::string Date() { return _Date; }
 			inline std::string Time() { return _Time; }
@@ -61,7 +61,7 @@ namespace Slyvina {
 			J_Action_Function Func{ nullptr };
 			J_Action_Explanation Explain{ nullptr };
 			std::string QuickExplanation;
-			inline J_Action() {} // just has to exist for some idiotic reason.			
+			J_Action();
 			J_Action(std::string cmd, J_Action_Function F, J_Action_Explanation E,std::string QE);
 		};
 

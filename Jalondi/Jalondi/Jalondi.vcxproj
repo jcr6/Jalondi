@@ -257,6 +257,7 @@
     <ClInclude Include="..\..\..\..\Libs\Units\Headers\SlyvDir.hpp" />
     <ClInclude Include="..\..\..\..\Libs\Units\Headers\SlyvString.hpp" />
     <ClInclude Include="Jalondi_Class.hpp" />
+    <ClInclude Include="Jalondi_Config.hpp" />
     <ClInclude Include="Jalondi_Create.hpp" />
   </ItemGroup>
   <ItemGroup>

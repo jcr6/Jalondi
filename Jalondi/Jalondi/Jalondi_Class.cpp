@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.02
+// Version: 24.10.08
 // EndLic
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
@@ -41,6 +41,10 @@ namespace Slyvina {
 		const int _JBSTab = 25;
 
 		std::map<std::string, J_Build> J_Build::_Register{};
+
+		J_Build::J_Build() {
+			// Nothing. This merely had to exist
+		}
 
 		J_Build::J_Build(std::string Source, std::string D, std::string T) {
 			_Date = D;
@@ -64,6 +68,8 @@ namespace Slyvina {
 
 #pragma region J_Action
 		std::map<std::string, J_Action> J_Action::Register{};
+
+		J_Action::J_Action() {	}
 
 		J_Action::J_Action(std::string cmd, J_Action_Function F, J_Action_Explanation E,std::string QE) {
 			Func = F;
