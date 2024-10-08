@@ -109,7 +109,7 @@ newdir("Jalondi/Linux/Exe")
 gcc("Lua","../../../Libs/Lunatic/Lua/Raw/src/")  
 delf("Jalondi/Linux/Objects/lua.o")  # lua.o and luac.o are objects for stand alone executables
 delf("Jalondi/Linux/Objects/luac.o") # leaving them be will spook up the linking process later.
-gcc("zlib","../../../Libs/JCR6/3rdParty/zlib/src/")
+#gcc("zlib","../../../Libs/JCR6/3rdParty/zlib/src/")
 gpp("Slyvina JCR6","../../../Libs/JCR6/Source")
 gpp("Slyvina Lunatic","../../../Libs/Lunatic")
 gpp("Slyvina Kitty","../../../Libs/Kitty/Source")

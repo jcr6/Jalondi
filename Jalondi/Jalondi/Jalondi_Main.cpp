@@ -24,6 +24,9 @@
 // Version: 24.10.08
 // EndLic
 
+// Config MUST be on top!
+#include "Jalondi_Config.hpp"
+
 #include <cstring>
 
 #include <SlyvQCol.hpp>
@@ -35,10 +38,13 @@
 #include <JCR6_RealDir.hpp>
 #include <JCR6_WAD.hpp>
 #include <JCR6_Westwood.hpp>
+#ifdef Use_zlib_in_JCR6
 #include <JCR6_zlib.hpp>
+#endif
 
 #include "Jalondi_Class.hpp"
 #include "Jalondi_Init.hpp"
+
 
 using namespace Slyvina;
 using namespace Units;
@@ -62,7 +68,9 @@ int main(int argc, char** args) {
 	InitQuake();
 	InitWAD();
 	for (int i = 2; i < argc; ++i) if (strcmp(args[i], "-w")==0) { Westwood_Init(); QCol->Warn("Westwood PAK files available"); }
+#ifdef Use_zlib_in_JCR6
 	init_zlib();
+#endif
 	switch(argc)
 	{
 	case 0:
