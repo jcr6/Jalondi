@@ -72,7 +72,7 @@ def gpp(name,dir,full=True,dirislist=False):
         sfp=fp.split("/")
         o = sfp[len(sfp)-1]
         o = o[:-3]+"o"
-        cmd =  "g++ -Woverflow -c -o Jalondi/Linux/Objects/%s "%o
+        cmd =  "g++ -Woverflow -c -o Jalondi/Linux/Objects/%s -Wtrigraphs "%o
         if full:
             for id in incdir.split(":"):
                 cmd+="\"-I%s\" "%id
