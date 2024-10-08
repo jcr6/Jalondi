@@ -24,6 +24,8 @@
 // Version: 24.10.03
 // EndLic
 
+#include <cstring>
+
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
 
