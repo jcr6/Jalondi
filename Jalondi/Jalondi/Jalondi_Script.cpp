@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.04
+// Version: 24.10.08
 // EndLic
 
 #include <Lunatic.hpp>
@@ -157,6 +157,9 @@ namespace Slyvina {
 				Lunatic_PushString(L, (*_Dir)[idx]);
 				return 1;
 			}
+			default:
+				QCol->Error("Invalid input in JA_Dir API");
+				return 0;
 			}
 		}
 		static int JA_Platform(lua_State* L) {
@@ -226,8 +229,8 @@ namespace Slyvina {
 				Script{ a[2] },
 				ArgArray{ "JALONDI_ARGS = { script=\"" + Script + "\"}\n" };
 			for (int i = 3; i < c; ++i) ArgArray += " JALONDI_ARGS[#JALONDI_ARGS+1] = \"" + LSafe(a[i]) + "\"\n";
-			Lunatic::_Lunatic::Panick = PaniekLua;
-			auto State{ Lunatic::LunaticBySource(ArgArray) }; CSA;
+			_Lunatic::Panick = PaniekLua;
+			auto State{ LunaticBySource(ArgArray) }; CSA;
 			for (auto JLM : Jalondi_API) {
 				State->Register("JALONDI_" + Upper(JLM.first), JLM.second);
 			}
@@ -246,6 +249,7 @@ namespace Slyvina {
 				delete Buf;
 				CSA;
 			}
+			return 0;
 		}
 #pragma endregion
 
