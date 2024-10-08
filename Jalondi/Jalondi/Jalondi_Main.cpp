@@ -44,7 +44,7 @@
 #endif
 //*/
 
-#include "Jalondi_Class.hpp"
+//#include "Jalondi_Class.hpp"
 //#include "Jalondi_Init.hpp"
 
 
@@ -64,8 +64,8 @@ int main(int argc, char** args) {
 	QCol->Doing("License", "General Public License v3");
 	QCol->LMagenta("(c) Jeroen P. Broks 2024!\n\n");
 	Jalondi_Exe = args[0];
-	SJB("Jalondi_Main.cpp");
 /*
+	SJB("Jalondi_Main.cpp");
 	InitAll();
 	InitJQL();
 	InitQuake();
@@ -87,6 +87,7 @@ int main(int argc, char** args) {
 		QCol->LCyan(" [<switches>] ");
 		QCol->Pink(" <file> \n\n");
 		QCol->Magenta("Known commands (two commands with the same function are merely aliases)\n");
+		/*
 		for (auto f : J_Action::Register) {
 			QCol->Yellow(Left(f.first + "          ", 10) + " ");
 			QCol->Cyan(f.second.QuickExplanation);
@@ -101,6 +102,7 @@ int main(int argc, char** args) {
 		if (!J_Action::Register.count(Lower(args[1]))) { QCol->Error("Command " + String(args[1]) + " not recognized!"); return 1; }
 		ret = J_Action::Register[Lower(args[1])].Func(argc, args);
 	}
+	//*/
 	QCol->Reset();
 	return ret;
 }
