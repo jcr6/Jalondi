@@ -50,13 +50,13 @@ void Slyvina::Jalondi::Jal_Jalondi_Main() {}; // must only exist, but has no val
 int main(int argc, char** args) {
 	
 	int ret{ 0 };
-	SJB("Jalondi_Main.cpp");
 	Jalondi_Exe = args[0];
 	QCol->LMagenta("Jalondi\t");
 	QCol->Yellow("JCR6 quick CLI management tool\n\n");
 	QCol->Doing("Coded by", "Jeroen P. Broks");
 	QCol->Doing("License", "General Public License v3");
 	QCol->LMagenta("(c) Jeroen P. Broks 2024!\n\n");
+	SJB("Jalondi_Main.cpp");
 	InitAll();
 	InitJQL();
 	InitQuake();
