@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.07
+// Version: 24.10.08
 // EndLic
 #include <Kitty_High.hpp>
 #include <High_Headers.hpp>
@@ -64,7 +64,7 @@ namespace Slyvina {
 			QCol->Yellow("-w         \t"); QCol->Cyan("Enable Westwoord PAK files\n");
 			QCol->Yellow("-ln        \t"); QCol->Cyan("Don't show line numbers\n");
 			QCol->Yellow("-lng <Lang>\t"); QCol->Cyan("Enforce a certain language (providing it's supported)");
-			QCol->Grey("\n\nIn order to make this possible Jalondi uses the Kitty module.\mWhatever the (C++) version of Kitty supports should also be supported by Jalondi\n(if Jalondi was rebuild since of course)\n\n");
+			QCol->Grey("\n\nIn order to make this possible Jalondi uses the Kitty module.\nWhatever the (C++) version of Kitty supports should also be supported by Jalondi\n(if Jalondi was rebuild since of course)\n\n");
 		}
 
 		static int _sType_Action(int argc, char** args) {
