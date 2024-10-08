@@ -52,7 +52,7 @@ def gcc(name,dir):
         sfp=fp.split("/")
         o = sfp[len(sfp)-1]
         o = o[:-1]+"o"
-        return_code = system("gcc -c -o Jalondi/Linux/Objects/%s \"%s\""%(o,fp))
+        return_code = system("gcc -Wno-trigraphs -c -o Jalondi/Linux/Objects/%s \"%s\""%(o,fp))
         if return_code>0:
             print("Compilation failed! (%d)"%return_code)
             quit()
@@ -76,7 +76,7 @@ def gpp(name,dir,full=True,dirislist=False):
         sfp=fp.split("/")
         o = sfp[len(sfp)-1]
         o = o[:-3]+"o"
-        cmd =  "g++ -Woverflow -c -o Jalondi/Linux/Objects/%s "%o
+        cmd =  "g++ -Woverflow -Wno-trigraphs -c -o Jalondi/Linux/Objects/%s "%o
         if full:
             for id in incdir.split(":"):
                 cmd+="\"-I%s\" "%id
