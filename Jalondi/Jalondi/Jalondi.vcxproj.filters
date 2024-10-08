@@ -413,6 +413,12 @@
     <ClInclude Include="..\..\..\..\Libs\Units\Headers\SlyvString.hpp">
       <Filter>Header Files\Slyvina\Units</Filter>
     </ClInclude>
+    <ClInclude Include="Jalondi_Config.hpp">
+      <Filter>Header Files\Jalondi</Filter>
+    </ClInclude>
+    <ClInclude Include="Jalondi_Init.hpp">
+      <Filter>Header Files\Jalondi</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Jalondi_MkInit.py">
