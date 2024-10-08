@@ -76,7 +76,7 @@ def gpp(name,dir,full=True,dirislist=False):
         sfp=fp.split("/")
         o = sfp[len(sfp)-1]
         o = o[:-3]+"o"
-        cmd =  "g++ -Woverflow -c -o Jalondi/Linux/Objects/%s -Wtrigraphs "%o
+        cmd =  "g++ -Woverflow -c -o Jalondi/Linux/Objects/%s "%o
         if full:
             for id in incdir.split(":"):
                 cmd+="\"-I%s\" "%id
@@ -115,3 +115,8 @@ gpp("Slyvina Lunatic","../../../Libs/Lunatic")
 gpp("Slyvina Kitty","../../../Libs/Kitty")
 gpp("Slyvina Units",glijst("../../../Libs/Units/Source",("SlyvQCol","SlyvAsk","SlyvBank","SlyvDir","SlyvDirry","SlyvMD5","SlyvOpenURL","SlyvRoman","SlyvSTOI","SlyvStream","SlyvString","SlyvTime","SlyvVolumes")),True,True)
 gpp("Jalondi","Jalondi")
+
+print("Linking: Jalondi/Linux/Exe/jalondi")
+rc = system("g++ -o Jalondi/Linux/Exe/jalondi Jalondi/Linux/Objects/*.o")
+if rc!=0:
+    print("Error in linking (%d): "%rc)
