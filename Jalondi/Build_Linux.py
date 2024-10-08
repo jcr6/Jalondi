@@ -115,7 +115,7 @@ gpp("Slyvina JCR6","../../../Libs/JCR6/Source"); delf("Jalondi/Linux/Objects/JCR
 gpp("Slyvina Kitty","../../../Libs/Kitty/Source")
 gpp("Slyvina Units",glijst("../../../Libs/Units/Source",("SlyvQCol","SlyvArgParse","SlyvAsk","SlyvBank","SlyvDir","SlyvDirry","SlyvMD5","SlyvOpenURL","SlyvRoman","SlyvSTOI","SlyvStream","SlyvString","SlyvTime","SlyvVolumes")),True,True)
 gpp("Jalondi","Jalondi")
-delf("Jalondi/Linux/Jalondi_Script.o") # temporary
+delf("Jalondi/Linux/Objects/Jalondi_Script.o") # temporary
 
 print("Linking: Jalondi/Linux/Exe/jalondi")
 rc = system("g++ -o Jalondi/Linux/Exe/jalondi Jalondi/Linux/Objects/*.o")
