@@ -3,6 +3,12 @@ from glob import glob
 from os import system
 from os import remove
 
+# This script is ONLY meant for Linux!
+print("OS: ",platform.system(),"; release: ",platform.release())
+if platform.system()!="Linux":
+    print("I'm sorry, but this script has been designed for Linux Only!")
+    quit()
+
 global incdir
 incdir = "../../../Libs/JCR6/Headers:../../../Libs/Units/Headers:../../../Libs/Lunatic"
 
