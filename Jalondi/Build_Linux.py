@@ -2,6 +2,8 @@
 from glob import glob
 from os import system
 from os import remove
+import os
+import platform
 
 # This script is ONLY meant for Linux!
 print("OS: ",platform.system(),"; release: ",platform.release())
