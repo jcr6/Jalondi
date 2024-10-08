@@ -101,8 +101,8 @@ int main(int argc, char** args) {
 	default:
 		if (!J_Action::Register.count(Lower(args[1]))) { QCol->Error("Command " + String(args[1]) + " not recognized!"); return 1; }
 		ret = J_Action::Register[Lower(args[1])].Func(argc, args);
-	}
 	//*/
+	}
 	QCol->Reset();
 	return ret;
 }
