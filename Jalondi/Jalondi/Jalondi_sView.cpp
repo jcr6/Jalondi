@@ -118,7 +118,7 @@ namespace Slyvina {
 				QCol->Grey("\n\n");
 			}
 
-
+			return ret;
 		}
 
 		void Jal_Jalondi_sView() {

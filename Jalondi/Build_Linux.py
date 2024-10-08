@@ -30,6 +30,10 @@ from os import remove
 import os
 import platform
 
+system("clear")
+print("Jalondi Linux Compilation Script")
+print("(c) Jeroen P. Broks\n\n")
+
 # This script is ONLY meant for Linux!
 print("OS: ",platform.system(),"; release: ",platform.release())
 if platform.system()!="Linux":
