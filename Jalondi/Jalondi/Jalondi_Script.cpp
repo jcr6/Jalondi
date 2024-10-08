@@ -69,12 +69,12 @@ namespace Slyvina {
 			}
 			QCol->Error("Lua went in a state of panic");
 			for (auto UL : *Uitleg) QCol->Grey("\t" + UL + "\n");
-			_StaakAlles = true; 
+			_StaakAlles = true;
 			return 0;
 		}
-		static void LEr(lua_State *L,String Msg,bool staken=true) {
+		static void LEr(lua_State* L, String Msg, bool staken = true) {
 			QCol->Error("Error in Lua script: " + Msg); QCol->Reset();
-			luaL_loadstring(L,"print(debug.traceback())");
+			luaL_loadstring(L, "print(debug.traceback())");
 			_StaakAlles = _StaakAlles || staken;
 		}
 
@@ -87,7 +87,7 @@ namespace Slyvina {
 		}
 
 		static int JA_Doing(lua_State* L) {
-			QCol->Doing(luaL_checkstring(L, 1), luaL_checkstring(L,2),luaL_optstring(L,3,"\n"));
+			QCol->Doing(luaL_checkstring(L, 1), luaL_checkstring(L, 2), luaL_optstring(L, 3, "\n"));
 			QCol->Reset();
 			return 0;
 		}
@@ -145,7 +145,7 @@ namespace Slyvina {
 		}
 		static int JA_Dir(lua_State* L) {
 			static VecString _Dir{ NewVecString() };
-			switch(luaL_checkinteger(L,1)){
+			switch (luaL_checkinteger(L, 1)) {
 			case 1: // get
 				_Dir = GetTree(Lunatic_OptString(L, 2, CurrentDir()));
 				lua_pushinteger(L, _Dir->size());
@@ -176,21 +176,7 @@ namespace Slyvina {
 			return 0;
 		}
 
-		static std::map<String, lua_CFunction> Jalondi_API{
-			{ "LOVE", JA_Love },
-			{ "DOING", JA_Doing },
-			{ "FSPLIT", JA_FSplit },
-			{ "CLEAR", JA_Clear },
-			{ "ADD", JA_Add },
-			{ "IMPORT", JA_Import },
-			{ "REQUIRE", JA_Require },
-			{ "ALIAS", JA_Alias },
-			{ "PWD", JA_PWD },
-			{ "DIR_TRUE_IGNORE",JA_Dir },
-			{ "PLATFORM",JA_Platform },
-			{ "START", JA_Start },
-			{ "RUN",JA_Start }
-		};
+		static std::map<String, lua_CFunction> Jalondi_API{};
 #pragma endregion
 
 #pragma region Action!
@@ -216,7 +202,7 @@ namespace Slyvina {
 			QCol->White("Will show all the contents of a JCR6 resource (including all external files it's been linked to)\n\n");
 			QCol->Magenta("Usage: ");
 			QCol->Yellow(StripAll(Jalondi_Exe));
-			QCol->LGreen(" script ");			
+			QCol->LGreen(" script ");
 			QCol->Pink(" <Lua script file> ");
 			QCol->Grey("[arguments]");
 		}
@@ -239,13 +225,13 @@ namespace Slyvina {
 			if (Ext == "LUA") {
 				QCol->Doing("Compiling", Script);
 				if (!FileExists(Script)) { QCol->Error("Script not found!"); return 404; }
-				State->QDoString("--[["+Script+"]]\t"+FLoadString(Script)); CSA;
+				State->QDoString("--[[" + Script + "]]\t" + FLoadString(Script)); CSA;
 			} else if (Ext == "LUAC" || Ext == "LBC") {
 				QCol->Doing("Loading", Script);
 				if (!FileExists(Script)) { QCol->Error("Compiled script not found!"); return 404; }
 				auto Buf{ LoadCharBuf(Script) };
 				auto B{ CreateBank(Buf,FileSize(Script)) };
-				State->QDoByteCode(B); 
+				State->QDoByteCode(B);
 				delete Buf;
 				CSA;
 			}
@@ -258,6 +244,23 @@ namespace Slyvina {
 		void Jal_Jalondi_Script() {
 			SJB("Jalondi_Script.cpp");
 			J_Action J{ "script",Script_Go,Script_Explain,"Run a lua script in order to configure how to create a JCR6 file" };
+			Jalondi_API = {
+			{ "LOVE", JA_Love },
+			{ "DOING", JA_Doing },
+			{ "FSPLIT", JA_FSplit },
+			{ "CLEAR", JA_Clear },
+			{ "ADD", JA_Add },
+			{ "IMPORT", JA_Import },
+			{ "REQUIRE", JA_Require },
+			{ "ALIAS", JA_Alias },
+			{ "PWD", JA_PWD },
+			{ "DIR_TRUE_IGNORE",JA_Dir },
+			{ "PLATFORM",JA_Platform },
+			{ "START", JA_Start },
+			{ "RUN",JA_Start }
+			};
+
+
 		}
 #pragma endregion
 	}
