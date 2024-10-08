@@ -54,7 +54,16 @@ def glijst(dir,lst):
     ret = []
     for l in lst: ret.append("%s/%s.cpp"%(dir,l))
     return ret
-          
+    
+def newdir(d):
+    if not os.path.exists(d):
+        print("Creating directory: ",d)
+        os.makedirs(d)
+
+newdir("Jalondi/Linux")
+newdir("Jalondi/Linux/Objects")
+newdir("Jalondi/Linux/Exe")
+
 gcc("Lua","../../../Libs/Lunatic/Lua/Raw/src/")  
 delf("Jalondi/Linux/Objects/lua.o")  # lua.o and luac.o are objects for stand alone executables
 delf("Jalondi/Linux/Objects/luac.o") # leaving them be will spook up the linking process later.
