@@ -37,7 +37,7 @@ if platform.system()!="Linux":
     quit()
 
 global incdir
-incdir = "../../../Libs/JCR6/Headers:../../../Libs/Units/Headers:../../../Libs/Lunatic"
+incdir = "../../../Libs/JCR6/Headers:../../../Libs/Units/Headers:../../../Libs/Lunatic:../../../Libs/Kitty/Headers"
 
 def gcc(name,dir):
     print("Building: ",name)
@@ -108,5 +108,6 @@ delf("Jalondi/Linux/Objects/luac.o") # leaving them be will spook up the linking
 gcc("zlib","../../../Libs/JCR6/3rdParty/zlib/src/")
 gpp("Slyvina JCR6","../../../Libs/JCR6/Source")
 gpp("Slyvina Lunatic","../../../Libs/Lunatic")
+gpp("Slyvina Kitty","../../../Libs/Kitty")
 gpp("Slyvina Units",glijst("../../../Libs/Units/Source",("SlyvQCol","SlyvAsk","SlyvBank","SlyvDir","SlyvDirry","SlyvMD5","SlyvOpenURL","SlyvRoman","SlyvSTOI","SlyvStream","SlyvString","SlyvTime","SlyvVolumes")),True,True)
 gpp("Jalondi","Jalondi")
