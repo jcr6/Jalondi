@@ -242,6 +242,7 @@ namespace Slyvina {
 			auto e{ system(String("rm -R " + sessiondir).c_str()) };
 #endif
 			if (e) { QCol->Error(TrSPrintF("Error in session kill (%d)", e)); return 34; }
+			return 0;
 		}
 #pragma endregion
 

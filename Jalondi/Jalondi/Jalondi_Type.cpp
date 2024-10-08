@@ -102,6 +102,7 @@ namespace Slyvina {
 				}
 				std::cout << "\n\n";
 			}
+			return ret;
 		}
 
 		void Jal_Jalondi_Type() {
