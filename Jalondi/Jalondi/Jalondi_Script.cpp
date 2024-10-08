@@ -34,7 +34,8 @@
 #include "Jalondi_Create.hpp"
 #include "Jalondi_Lua.hpp"
 #include <SlyvDir.hpp>
-using namespace Slyvina::Lunatic;
+
+using namespace Slyvina::NSLunatic;
 
 using namespace Slyvina::Units;
 
