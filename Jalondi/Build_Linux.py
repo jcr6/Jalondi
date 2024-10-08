@@ -106,13 +106,13 @@ newdir("Jalondi/Linux")
 newdir("Jalondi/Linux/Objects")
 newdir("Jalondi/Linux/Exe")
 
-gcc("Lua","../../../Libs/Lunatic/Lua/Raw/src/")  
-delf("Jalondi/Linux/Objects/lua.o")  # lua.o and luac.o are objects for stand alone executables
-delf("Jalondi/Linux/Objects/luac.o") # leaving them be will spook up the linking process later.
+#gcc("Lua","../../../Libs/Lunatic/Lua/Raw/src/")  
+#delf("Jalondi/Linux/Objects/lua.o")  # lua.o and luac.o are objects for stand alone executables
+#delf("Jalondi/Linux/Objects/luac.o") # leaving them be will spook up the linking process later.
 #gcc("zlib","../../../Libs/JCR6/3rdParty/zlib/src/")
 gpp("Slyvina JCR6","../../../Libs/JCR6/Source"); delf("Jalondi/Linux/Objects/JCR6_zlib.o")
-gpp("Slyvina Lunatic","../../../Libs/Lunatic")
-gpp("Slyvina Kitty","../../../Libs/Kitty/Source")
+#gpp("Slyvina Lunatic","../../../Libs/Lunatic")
+#gpp("Slyvina Kitty","../../../Libs/Kitty/Source")
 gpp("Slyvina Units",glijst("../../../Libs/Units/Source",("SlyvQCol","SlyvArgParse","SlyvAsk","SlyvBank","SlyvDir","SlyvDirry","SlyvMD5","SlyvOpenURL","SlyvRoman","SlyvSTOI","SlyvStream","SlyvString","SlyvTime","SlyvVolumes")),True,True)
 gpp("Jalondi","Jalondi")
 
