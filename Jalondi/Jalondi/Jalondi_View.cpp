@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.07
+// Version: 24.10.08
 // EndLic
 
 #include <SlyvArgParse.hpp>
@@ -49,7 +49,8 @@ namespace Slyvina {
 			{"INI","Config"},{"XML","Data"},
 			{"MYDATA","DATA"},
 			{"MD","MarkDown"},
-			{"CPP","Code"},{"HPP","Header"},{"CS","Code"},{"C","Code"},{"H","Header"},{"PAS","Code"}
+			{"CPP","Code"},{"HPP","Header"},{"CS","Code"},{"C","Code"},{"H","Header"},{"PAS","Code"},
+			{"OBJ","Object"},{"O","Object"}
 		};
 
 		static void _View_Explain() {
