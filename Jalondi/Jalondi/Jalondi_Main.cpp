@@ -32,6 +32,7 @@
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
 
+/*
 #include <JCR6_Core.hpp>
 #include <JCR6_JQL.hpp>
 #include <JCR6_QuakePAK.hpp>
@@ -41,17 +42,18 @@
 #ifdef Use_zlib_in_JCR6
 #include <JCR6_zlib.hpp>
 #endif
+//*/
 
 #include "Jalondi_Class.hpp"
-#include "Jalondi_Init.hpp"
+//#include "Jalondi_Init.hpp"
 
 
 using namespace Slyvina;
 using namespace Units;
 using namespace Jalondi;
-using namespace JCR6;
+//using namespace JCR6;
 
-void Slyvina::Jalondi::Jal_Jalondi_Main() {}; // must only exist, but has no value at all.
+namespace Slyvina { namespace Jalondi { void Jal_Jalondi_Main() {} } } // must only exist, but has no value at all.
 
 int main(int argc, char** args) {
 	
@@ -63,6 +65,7 @@ int main(int argc, char** args) {
 	QCol->LMagenta("(c) Jeroen P. Broks 2024!\n\n");
 	Jalondi_Exe = args[0];
 	SJB("Jalondi_Main.cpp");
+/*
 	InitAll();
 	InitJQL();
 	InitQuake();
@@ -71,6 +74,7 @@ int main(int argc, char** args) {
 #ifdef Use_zlib_in_JCR6
 	init_zlib();
 #endif
+//*/
 	switch(argc)
 	{
 	case 0:
