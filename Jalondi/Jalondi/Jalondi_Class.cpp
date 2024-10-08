@@ -87,7 +87,7 @@ namespace Slyvina {
 		static int __VersionA(int, char**) { __Version(); return 0; }
 		static void __VersionA() { __Version(); }
 		void Jal_Jalondi_Class() { 
-			QCol->LMagenta("Class here!"); // Debug only!
+			// QCol->LMagenta("Class here!"); // Debug only!
 			SJB("Jalondi_Class.cpp");
 			J_Action __MyVersion{ "version",__VersionA,__VersionA,"Build times of Jalondi" };
 		}
