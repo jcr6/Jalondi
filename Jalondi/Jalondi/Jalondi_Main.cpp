@@ -50,7 +50,7 @@
 
 using namespace Slyvina;
 using namespace Units;
-//using namespace Jalondi;
+using namespace Jalondi;
 //using namespace JCR6;
 
 namespace Slyvina { namespace Jalondi { void Jal_Jalondi_Main() {} } } // must only exist, but has no value at all.
@@ -87,13 +87,13 @@ int main(int argc, char** args) {
 		QCol->LCyan(" [<switches>] ");
 		QCol->Pink(" <file> \n\n");
 		QCol->Magenta("Known commands (two commands with the same function are merely aliases)\n");
-		/*
 		for (auto f : J_Action::Register) {
 			QCol->Yellow(Left(f.first + "          ", 10) + " ");
 			QCol->Cyan(f.second.QuickExplanation);
 			std::cout << "\n";
 		}
 		break;
+		/*
 	case 2:
 		if (!J_Action::Register.count(Lower(args[1]))) { QCol->Error("Command " + String(args[1]) + " not recognized!"); return 1; }
 		J_Action::Register[Lower(args[1])].Explain();
