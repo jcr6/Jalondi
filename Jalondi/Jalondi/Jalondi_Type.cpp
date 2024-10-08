@@ -23,6 +23,7 @@
 // 
 // Version: 24.10.08
 // EndLic
+
 #include "Jalondi_Class.hpp"
 #include <SlyvQCol.hpp>
 #include <JCR6_Core.hpp>
