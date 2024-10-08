@@ -60,6 +60,11 @@ def newdir(d):
         print("Creating directory: ",d)
         os.makedirs(d)
 
+os.chdir("Jalondi")
+print("Init data generation")
+system("python3 Jalondi_MkInit.py")
+os.chdir("..")
+
 newdir("Jalondi/Linux")
 newdir("Jalondi/Linux/Objects")
 newdir("Jalondi/Linux/Exe")
