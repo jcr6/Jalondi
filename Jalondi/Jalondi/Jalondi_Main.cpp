@@ -50,7 +50,7 @@
 
 using namespace Slyvina;
 using namespace Units;
-using namespace Jalondi;
+//using namespace Jalondi;
 //using namespace JCR6;
 
 namespace Slyvina { namespace Jalondi { void Jal_Jalondi_Main() {} } } // must only exist, but has no value at all.
