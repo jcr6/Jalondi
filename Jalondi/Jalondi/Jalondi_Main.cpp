@@ -45,7 +45,7 @@
 //*/
 
 #include "Jalondi_Class.hpp"
-//#include "Jalondi_Init.hpp"
+#include "Jalondi_Init.hpp"
 
 
 using namespace Slyvina;
