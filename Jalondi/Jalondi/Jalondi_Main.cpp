@@ -63,7 +63,7 @@ int main(int argc, char** args) {
 	QCol->Doing("Coded by", "Jeroen P. Broks");
 	QCol->Doing("License", "General Public License v3");
 	QCol->LMagenta("(c) Jeroen P. Broks 2024!\n\n");
-	//Jalondi_Exe = args[0];
+	Jalondi_Exe = args[0];
 /*
 	SJB("Jalondi_Main.cpp");
 	InitAll();
