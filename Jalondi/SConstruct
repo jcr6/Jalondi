@@ -26,7 +26,7 @@ if Linux:
     # print("Glob(\"%s\"):"%zlibdir) # debug
     # for f in zlibsrc: print("\t%s"%f) # debug
     VariantDir(zlibdir, zlibout , duplicate=False)
-    StaticLibrary(zlibout+"/zlib_linux",zlibsrc)
+    Library(zlibout+"/zlib_linux",zlibsrc)
     zlib = zlibout+"/zlib_linux"
 elif Windows:
     zlib = "../../Libs/JCR6/3rdParty/3rdParty/zlib/zlib"
@@ -34,6 +34,7 @@ else:
     print("\x1b[31mERROR!\x1b[0m Running on unknown platform")
     
 # lua
+print("Configuring Lua")
 LuaDir = "../../../Libs/Lunatic/Lua/Raw/src/"
 LuaFiles = []
 for gf in Glob(LuaDir+"/*.c"):
@@ -41,4 +42,4 @@ for gf in Glob(LuaDir+"/*.c"):
     if f[-5:]!="lua.c" and f[-6:]!="luac.c":
         LuaFiles.append(f) # lua.c and luac.c are programs on their own which I don't need!
         print("Lua: %s"%f) # debug
-StaticLibrary("../../../Libs/Lunatic/Lua/lua_%s"%lplat,LuaFiles)
+Library("../../../Libs/Lunatic/Lua/lua_%s"%lplat,LuaFiles)
