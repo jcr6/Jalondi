@@ -90,7 +90,7 @@ namespace Slyvina {
 				}
 				if (!BT) { QCol->Error("Input buffer null pointer for unknown reasons!"); ret = 6; break; }
 				ChB R;
-				cout << "\n\n";
+				std::cout << "\n\n";
 				BT->Position(0);
 				while (!BT->AtEnd()) {
 					R.Bt = BT->ReadByte();
