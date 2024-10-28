@@ -13,6 +13,7 @@ lplat = platform.system().lower()
 JalondiIncludeDirs = [
     "../../../Libs/JCR6/Headers",
     "../../../Libs/Units/Headers",
+    "../../../Libs/Kitty/Headers",
 	"../../../Libs/Lunatic"	
 ]
 
