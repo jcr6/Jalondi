@@ -16,8 +16,8 @@ JalondiIncludeDirs = [
 
 if Linux:
     print("Configuring zlib")              
-    zlibdir = "../../Libs/JCR6/3rdParty/3rdParty/zlib/src"
-    zlibout = "../../Libs/JCR6/3rdParty/3rdParty/zlib/linux"
+    zlibdir = "../../Libs/JCR6/3rdParty/zlib/src"
+    zlibout = "../../Libs/JCR6/3rdParty/zlib/linux"
     zlibsrc = Glob(zlibdir+"/*.c")
     print("Glob(\"%s\"):"%zlibdir) # debug
     for f in zlibsrc: print("\t%f",f) # debug
