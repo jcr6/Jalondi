@@ -36,7 +36,8 @@ else:
 # lua
 LuaDir = "../../../Libs/Lunatic/Lua/Raw/src/"
 LuaFiles = []
-for f in Glob(LuaDir+"/*.c"):
+for gf in Glob(LuaDir+"/*.c"):
+    g="%s"%gf
     if f[-5:]!="lua.c" and f[-6:]!="luac.c":
         Lua.append(f) # lua.c and luac.c are programs on their own which I don't need!
         print("Lua: %s"%f) # debug
