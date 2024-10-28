@@ -151,4 +151,7 @@ os.chdir("..")
 print("Build Jalondi")
 #VariantDir("Jalondi","objects/%s"%lplat)
 #Program("exe/%s/jalondi"%lplat,JalondiFiles,LIBS=[Lua,zlib],CPPPATH=JalondiIncludeDirs)
-Program("exe/%s/jalondi"%lplat,JalondiFiles+LuaFiles+zlibsrc,CPPPATH=JalondiIncludeDirs)
+if Windows:
+    Program("exe/%s/jalondi"%lplat,JalondiFiles+LuaFiles,CPPPATH=JalondiIncludeDirs,LIBS=zlib)
+else:
+    Program("exe/%s/jalondi"%lplat,JalondiFiles+LuaFiles+zlibsrc,CPPPATH=JalondiIncludeDirs)
