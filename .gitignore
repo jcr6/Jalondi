@@ -12,3 +12,12 @@ Test*.jcr
 Jalondi/Jalondi/Jalondi_Lua.hpp
 test.lua
 *.o
+
+
+# Linux builds shouldn't be here
+Linux/Objects
+Linux/Exe
+.sconsign.dblite
+exe
+exe/linux
+

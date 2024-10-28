@@ -1,0 +1,157 @@
+import platform
+import os
+
+print("Jalondi - SCons Script!")
+print("(c) Jeroen P. Broks")
+print("Platform: %s\n"%platform.system())
+
+Linux = platform.system()=="Linux"
+Windows = platform.system()=="Windows"
+
+lplat = platform.system().lower()
+
+JalondiIncludeDirs = [
+    "../../../Libs/JCR6/Headers",
+    "../../../Libs/Units/Headers",
+    "../../../Libs/Kitty/Headers",
+	"../../../Libs/Lunatic"	
+]
+
+JalondiFiles = [
+    "../../../Libs/JCR6/Source/JCR6_Core.cpp",
+    "../../../Libs/JCR6/Source/JCR6_JQL.cpp",
+    "../../../Libs/JCR6/Source/JCR6_QuakePAK.cpp",
+    "../../../Libs/JCR6/Source/JCR6_RealDir.cpp",
+    "../../../Libs/JCR6/Source/JCR6_WAD.cpp",
+    "../../../Libs/JCR6/Source/JCR6_Westwood.cpp",
+    "../../../Libs/JCR6/Source/JCR6_Write.cpp",
+    "../../../Libs/JCR6/Source/JCR6_zlib.cpp",
+    "../../../Libs/Kitty/Source/KittyHighBASIC.cpp",
+    "../../../Libs/Kitty/Source/KittyHighBlitzBasic.cpp",
+    "../../../Libs/Kitty/Source/KittyHighBlitzMax.cpp",
+    "../../../Libs/Kitty/Source/KittyHighBrainfuck.cpp",
+    "../../../Libs/Kitty/Source/KittyHighC.cpp",
+    "../../../Libs/Kitty/Source/KittyHighCobra.cpp",
+    "../../../Libs/Kitty/Source/KittyHighCS.cpp",
+    "../../../Libs/Kitty/Source/KittyHighGo.cpp",
+    "../../../Libs/Kitty/Source/KittyHighHTML.cpp",
+    "../../../Libs/Kitty/Source/KittyHighINI.cpp",
+    "../../../Libs/Kitty/Source/KittyHighJava.cpp",
+    "../../../Libs/Kitty/Source/KittyHighJavaScript.cpp",
+    "../../../Libs/Kitty/Source/KittyHighNeil.cpp",
+    "../../../Libs/Kitty/Source/KittyHighNIL.cpp",
+    "../../../Libs/Kitty/Source/KittyHighPascal.cpp",
+    "../../../Libs/Kitty/Source/KittyHighPython.cpp",
+    "../../../Libs/Kitty/Source/KittyHighSASKIA.cpp",
+    "../../../Libs/Kitty/Source/KittyHighScyndi.cpp",
+    "../../../Libs/Kitty/Source/KittyHighVisualBasic.cpp",
+    "../../../Libs/Kitty/Source/KittyHighWhiteSpace.cpp",
+    "../../../Libs/Kitty/Source/KittyHighXML.cpp",
+    "../../../Libs/Kitty/Source/Kitty_High.cpp",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lapi.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lauxlib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lbaselib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lcode.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lcorolib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lctype.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/ldblib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/ldebug.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/ldo.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/ldump.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lfunc.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lgc.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/linit.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/liolib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/llex.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lmathlib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lmem.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/loadlib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lobject.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lopcodes.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/loslib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lparser.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lstate.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lstring.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lstrlib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/ltable.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/ltablib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/ltm.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lundump.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lutf8lib.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lvm.c",
+    # "../../../Libs/Lunatic/Lua/Raw/src/lzio.c",
+    "../../../Libs/Lunatic/Lunatic.cpp",
+    "../../../Libs/Units/Source/SlyvArgParse.cpp",
+    "../../../Libs/Units/Source/SlyvAsk.cpp",
+    "../../../Libs/Units/Source/SlyvBank.cpp",
+    "../../../Libs/Units/Source/SlyvDir.cpp",
+    "../../../Libs/Units/Source/SlyvDirry.cpp",
+    "../../../Libs/Units/Source/SlyvMD5.cpp",
+    "../../../Libs/Units/Source/SlyvOpenURL.cpp",
+    "../../../Libs/Units/Source/SlyvQCol.cpp",
+    "../../../Libs/Units/Source/SlyvRoman.cpp",
+    "../../../Libs/Units/Source/SlyvSTOI.cpp",
+    "../../../Libs/Units/Source/SlyvStream.cpp",
+    "../../../Libs/Units/Source/SlyvString.cpp",
+    "../../../Libs/Units/Source/SlyvTime.cpp",
+    "../../../Libs/Units/Source/SlyvVolumes.cpp",
+    "Jalondi/Jalondi_Class.cpp",
+    "Jalondi/Jalondi_Convert.cpp",
+    "Jalondi/Jalondi_Create.cpp",
+    "Jalondi/Jalondi_Extract.cpp",
+    "Jalondi/Jalondi_HEX.cpp",
+    "Jalondi/Jalondi_Main.cpp",
+    "Jalondi/Jalondi_Script.cpp",
+    "Jalondi/Jalondi_Type.cpp",
+    "Jalondi/Jalondi_View.cpp",
+    "Jalondi/Jalondi_sView.cpp"
+]
+
+# zlib
+if Linux:
+    print("Configuring zlib")              
+    zlibdir = "../../../Libs/JCR6/3rdParty/zlib/src"
+    zlibout = "../../../Libs/JCR6/3rdParty/zlib/linux"
+    Mkdir(zlibout)
+    zlibsrc = Glob(zlibdir+"/*.c")
+    # print("Glob(\"%s\"):"%zlibdir) # debug
+    # for f in zlibsrc: print("\t%s"%f) # debug
+    #VariantDir(zlibdir, zlibout , duplicate=False)
+    Library(zlibout+"/zlib_linux",zlibsrc)
+    zlib = zlibout+"/zlib_linux"
+elif Windows:
+    zlib = "../../Libs/JCR6/3rdParty/3rdParty/zlib/zlib"
+else:
+    print("\x1b[31mERROR!\x1b[0m Running on unknown platform")
+    
+# lua
+print("Configuring Lua")
+LuaDir = "../../../Libs/Lunatic/Lua/Raw/src"
+LuaOut = "../../../Libs/Lunatic/Lua/build/%s"%lplat
+LuaFiles = []
+Mkdir(LuaOut)
+#VariantDir(LuaDir, LuaOut , duplicate=False)
+for gf in Glob(LuaDir+"/*.c"):
+    f="%s"%gf
+    if f[-5:]!="lua.c" and f[-6:]!="luac.c":
+        LuaFiles.append(f) # lua.c and luac.c are programs on their own which I don't need!
+        print("\tLua: %s"%f) # debug
+Lua = "../../../Libs/Lunatic/Lua/lua_%s"%lplat        
+#Library(Lua,LuaFiles)
+
+# Jalondi Init
+print("Init Jalondi Modules Headers")
+os.chdir("Jalondi")
+if Windows:
+    os.system("python Jalondi_MkInit.py")
+else:
+    os.system("python3 Jalondi_MkInit.py")
+os.chdir("..")
+
+print("Build Jalondi")
+#VariantDir("Jalondi","objects/%s"%lplat)
+#Program("exe/%s/jalondi"%lplat,JalondiFiles,LIBS=[Lua,zlib],CPPPATH=JalondiIncludeDirs)
+if Windows:
+    Program("exe/%s/jalondi"%lplat,JalondiFiles+LuaFiles,CPPPATH=JalondiIncludeDirs,LIBS=zlib)
+else:
+    Program("exe/%s/jalondi"%lplat,JalondiFiles+LuaFiles+zlibsrc,CPPPATH=JalondiIncludeDirs)

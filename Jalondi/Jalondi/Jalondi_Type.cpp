@@ -1,28 +1,30 @@
-// Lic:
+// License:
+// 
 // Jalondi
 // Type
 // 
 // 
 // 
-// (c) Jeroen P. Broks, 2024
+// 	(c) Jeroen P. Broks, 2024
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// 		This program is free software: you can redistribute it and/or modify
+// 		it under the terms of the GNU General Public License as published by
+// 		the Free Software Foundation, either version 3 of the License, or
+// 		(at your option) any later version.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 		This program is distributed in the hope that it will be useful,
+// 		but WITHOUT ANY WARRANTY; without even the implied warranty of
+// 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// 		GNU General Public License for more details.
+// 		You should have received a copy of the GNU General Public License
+// 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 
-// Please note that some references to data like pictures or audio, do not automatically
-// fall under this licenses. Mostly this is noted in the respective files.
+// 	Please note that some references to data like pictures or audio, do not automatically
+// 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.04
-// EndLic
+// Version: 24.10.28 I
+// End License
+
 #include "Jalondi_Class.hpp"
 #include <SlyvQCol.hpp>
 #include <JCR6_Core.hpp>
@@ -89,7 +91,7 @@ namespace Slyvina {
 				}
 				if (!BT) { QCol->Error("Input buffer null pointer for unknown reasons!"); ret = 6; break; }
 				ChB R;
-				cout << "\n\n";
+				std::cout << "\n\n";
 				BT->Position(0);
 				while (!BT->AtEnd()) {
 					R.Bt = BT->ReadByte();
@@ -102,6 +104,7 @@ namespace Slyvina {
 				}
 				std::cout << "\n\n";
 			}
+			return ret;
 		}
 
 		void Jal_Jalondi_Type() {

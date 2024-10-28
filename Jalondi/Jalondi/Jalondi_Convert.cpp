@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.07
+// Version: 24.10.08
 // EndLic
 #include <SlyvAsk.hpp>
 
@@ -124,8 +124,8 @@ namespace Slyvina {
 			QCol->Grey(" <target>\n");
 			QCol->LMagenta("\n\nAllowed switches\n");
 			//QCol->Yellow("-w         \t"); QCol->Cyan("Enable Westwoord PAK files\n");
-			QCol->Yellow("-renew "); QCol->Cyan("Renew data file about packers and unpackers");
-			QCol->Yellow("-ovr   "); QCol->Cyan("Delete target file before converting if it exists");
+			QCol->Yellow("-renew "); QCol->Cyan("Renew data file about packers and unpackers\n");
+			QCol->Yellow("-ovr   "); QCol->Cyan("Delete target file before converting if it exists\n");
 			
 			QCol->Grey("\n\nSince Jalondi is not compatible with the formats you can access this way, Jalondi will merely call the programs that can and only do those actions by itself that it can due to JCR6 compatibility.\n\nThe first time you try to make Jalondi convert resources/archives, it will try to scan for the programs it knows to be able to handle them.\nThe data will be stored in "+ConvertFile+" for future referrence. You can alter that file if you know/have resource/archive formats that Jalondi doesn't know of, and that will cause Jalondi to be able to work with those\n\n");
 			QCol->Red("IMPORTANT NOTE!\n"); QCol->Yellow("Please note that JCR6 supports stuff that archives do not and vice versa.\nConverted files can basically never be 'perfect'.\n\n");
@@ -242,6 +242,7 @@ namespace Slyvina {
 			auto e{ system(String("rm -R " + sessiondir).c_str()) };
 #endif
 			if (e) { QCol->Error(TrSPrintF("Error in session kill (%d)", e)); return 34; }
+			return 0;
 		}
 #pragma endregion
 
