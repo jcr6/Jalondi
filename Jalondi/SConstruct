@@ -15,11 +15,11 @@ JalondiIncludeDirs = [
 
 
 if Linux:
-    print("Configuring zlib")
-    zlibdir = "../../../Libs/JCR6/3rdParty/3rdParty/zlib/src"
-    zlibout = "../../../Libs/JCR6/3rdParty/3rdParty/zlib/linux"
+    print("Configuring zlib")              
+    zlibdir = "../../Libs/JCR6/3rdParty/3rdParty/zlib/src"
+    zlibout = "../../Libs/JCR6/3rdParty/3rdParty/zlib/linux"
     VariantDir(zlibdir, zlibout , duplicate=False)
-    StaticLibrary(zlibout+"/zlib_linux",Glob(zlibdir+"*.c"))
+    StaticLibrary(zlibout+"/zlib_linux",Glob(zlibdir+"/*.c"))
     zlib = zlibout+"/zlib_linux"
 elif Windows:
     zlib = "../../Libs/JCR6/3rdParty/3rdParty/zlib/zlib"
