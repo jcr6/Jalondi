@@ -136,7 +136,7 @@ for gf in Glob(LuaDir+"/*.c"):
     if f[-5:]!="lua.c" and f[-6:]!="luac.c":
         LuaFiles.append(f) # lua.c and luac.c are programs on their own which I don't need!
         print("\tLua: %s"%f) # debug
-Lua = "../../../Libs/Lunatic/Lua/lua_%s"%lplat        
+Lua = "lua_%s"%lplat #"../../../Libs/Lunatic/Lua/lua_%s"%lplat        
 Library(Lua,LuaFiles)
 
 # Jalondi Init
