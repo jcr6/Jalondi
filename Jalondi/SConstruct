@@ -1,4 +1,5 @@
 import platform
+import os
 
 print("Jalondi - SCons Script!")
 print("(c) Jeroen P. Broks")
@@ -46,3 +47,12 @@ for gf in Glob(LuaDir+"/*.c"):
         LuaFiles.append(f) # lua.c and luac.c are programs on their own which I don't need!
         print("Lua: %s"%f) # debug
 Library("../../../Libs/Lunatic/Lua/lua_%s"%lplat,LuaFiles)
+
+# Jalondi Init
+print("Init Jalondi Modules Headers")
+os.chdir("Jalondi")
+if Windows:
+    os.system("python Jalondi_MkInit.py")
+else:
+    os.system("python3 Jalondi_MkInit.py")
+os.chdir("..")
