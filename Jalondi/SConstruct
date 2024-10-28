@@ -115,7 +115,7 @@ if Linux:
     zlibsrc = Glob(zlibdir+"/*.c")
     # print("Glob(\"%s\"):"%zlibdir) # debug
     # for f in zlibsrc: print("\t%s"%f) # debug
-    VariantDir(zlibdir, zlibout , duplicate=False)
+    #VariantDir(zlibdir, zlibout , duplicate=False)
     Library(zlibout+"/zlib_linux",zlibsrc)
     zlib = zlibout+"/zlib_linux"
 elif Windows:
@@ -129,7 +129,7 @@ LuaDir = "../../../Libs/Lunatic/Lua/Raw/src"
 LuaOut = "../../../Libs/Lunatic/Lua/build/%s"%lplat
 LuaFiles = []
 Mkdir(LuaOut)
-VariantDir(LuaDir, LuaOut , duplicate=False)
+#VariantDir(LuaDir, LuaOut , duplicate=False)
 for gf in Glob(LuaDir+"/*.c"):
     f="%s"%gf
     if f[-5:]!="lua.c" and f[-6:]!="luac.c":
@@ -148,5 +148,5 @@ else:
 os.chdir("..")
 
 print("Build Jalondi")
-VariantDir("Jalondi","objects/%s"%lplat)
+#VariantDir("Jalondi","objects/%s"%lplat)
 Program("exe/%s/jalondi"%lplat,JalondiFiles,LIBS=[Lua,zlib],CPPPATH=JalondiIncludeDirs)
