@@ -32,7 +32,7 @@
 #include <SlyvQCol.hpp>
 #include <SlyvString.hpp>
 
-/*
+//*
 #include <JCR6_Core.hpp>
 #include <JCR6_JQL.hpp>
 #include <JCR6_QuakePAK.hpp>
@@ -51,7 +51,7 @@
 using namespace Slyvina;
 using namespace Units;
 using namespace Jalondi;
-//using namespace JCR6;
+using namespace JCR6;
 
 namespace Slyvina { namespace Jalondi { void Jal_Jalondi_Main() {} } } // must only exist, but has no value at all.
 
@@ -66,7 +66,7 @@ int main(int argc, char** args) {
 	Jalondi_Exe = args[0];
 	SJB("Jalondi_Main.cpp");
 	InitAll();
-/*
+//*
 	InitJQL();
 	InitQuake();
 	InitWAD();
