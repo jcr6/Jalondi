@@ -136,8 +136,8 @@ for gf in Glob(LuaDir+"/*.c"):
     if f[-5:]!="lua.c" and f[-6:]!="luac.c":
         LuaFiles.append(f) # lua.c and luac.c are programs on their own which I don't need!
         print("\tLua: %s"%f) # debug
-Lua = "lua_%s"%lplat #"../../../Libs/Lunatic/Lua/lua_%s"%lplat        
-Library(Lua,LuaFiles)
+Lua = "../../../Libs/Lunatic/Lua/lua_%s"%lplat        
+#Library(Lua,LuaFiles)
 
 # Jalondi Init
 print("Init Jalondi Modules Headers")
@@ -150,4 +150,5 @@ os.chdir("..")
 
 print("Build Jalondi")
 #VariantDir("Jalondi","objects/%s"%lplat)
-Program("exe/%s/jalondi"%lplat,JalondiFiles,LIBS=[Lua,zlib],CPPPATH=JalondiIncludeDirs)
+#Program("exe/%s/jalondi"%lplat,JalondiFiles,LIBS=[Lua,zlib],CPPPATH=JalondiIncludeDirs)
+Program("exe/%s/jalondi"%lplat,JalondiFiles+LuaFiles+zlibsrc,CPPPATH=JalondiIncludeDirs)
