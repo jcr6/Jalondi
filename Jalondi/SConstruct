@@ -18,9 +18,10 @@ if Linux:
     print("Configuring zlib")              
     zlibdir = "../../../Libs/JCR6/3rdParty/zlib/src"
     zlibout = "../../../Libs/JCR6/3rdParty/zlib/linux"
+    Mkdir(zlibout)
     zlibsrc = Glob(zlibdir+"/*.c")
     print("Glob(\"%s\"):"%zlibdir) # debug
-    for f in zlibsrc: print("\t%f",f) # debug
+    for f in zlibsrc: print("\t%s",f) # debug
     VariantDir(zlibdir, zlibout , duplicate=False)
     StaticLibrary(zlibout+"/zlib_linux",zlibsrc)
     zlib = zlibout+"/zlib_linux"
