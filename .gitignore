@@ -17,3 +17,7 @@ test.lua
 # Linux builds shouldn't be here
 Linux/Objects
 Linux/Exe
+.sconsign.dblite
+exe
+exe/linux
+
