@@ -7,7 +7,7 @@ print("Platform: %s\n"%platform.system())
 Linux = platform.system()=="Linux"
 Windows = platform.system()=="Windows"
 
-lplat = platform.lower()
+lplat = platform.system().lower()
 
 JalondiIncludeDirs = [
     "../../../Libs/JCR6/Headers",
