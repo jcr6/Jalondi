@@ -7,6 +7,8 @@ print("Platform: %s\n"%platform.system())
 Linux = platform.system()=="Linux"
 Windows = platform.system()=="Windows"
 
+lplat = platform.lower()
+
 JalondiIncludeDirs = [
     "../../../Libs/JCR6/Headers",
     "../../../Libs/Units/Headers",
@@ -14,14 +16,15 @@ JalondiIncludeDirs = [
 ]
 
 
+# zlib
 if Linux:
     print("Configuring zlib")              
     zlibdir = "../../../Libs/JCR6/3rdParty/zlib/src"
     zlibout = "../../../Libs/JCR6/3rdParty/zlib/linux"
     Mkdir(zlibout)
     zlibsrc = Glob(zlibdir+"/*.c")
-    print("Glob(\"%s\"):"%zlibdir) # debug
-    for f in zlibsrc: print("\t%s",f) # debug
+    # print("Glob(\"%s\"):"%zlibdir) # debug
+    # for f in zlibsrc: print("\t%s"%f) # debug
     VariantDir(zlibdir, zlibout , duplicate=False)
     StaticLibrary(zlibout+"/zlib_linux",zlibsrc)
     zlib = zlibout+"/zlib_linux"
@@ -30,4 +33,11 @@ elif Windows:
 else:
     print("\x1b[31mERROR!\x1b[0m Running on unknown platform")
     
-    
+# lua
+LuaDir = "../../../Libs/Lunatic/Lua/Raw/src/"
+LuaFiles = []
+for f in Glob(LuaDir+"/*.c"):
+    if f[-5:]!="lua.c" and f[-6:]!="luac.c":
+        Lua.append(f) # lua.c and luac.c are programs on their own which I don't need!
+        print("Lua: %s"%f) # debug
+StaticLibrary("../../../Libs/Lunatic/Lua/lua_%s"%lplat,LuaFiles)
