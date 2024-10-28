@@ -18,9 +18,11 @@ if Linux:
     zlibdir = "../../Libs/JCR6/3rdParty/3rdParty/zlib/src"
     zlibout = "../../Libs/JCR6/3rdParty/3rdParty/zlib/linux"
     VariantDir(zlibdir, zlibout , duplicate=False)
-    StaticLibrary(zlibout+"/zlib_linux",Glob(zlibdir+"*.c")
+    StaticLibrary(zlibout+"/zlib_linux",Glob(zlibdir+"*.c"))
     zlib = zlibout+"/zlib_linux"
-elif Windows
+elif Windows:
     zlib = "../../Libs/JCR6/3rdParty/3rdParty/zlib/zlib"
+else:
+    print("\x1b[31mERROR!\x1b[0m Running on unknown platform")
     
     
