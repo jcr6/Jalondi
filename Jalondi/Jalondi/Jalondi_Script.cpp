@@ -1,3 +1,29 @@
+// License:
+// 
+// Jalondi
+// Script
+// 
+// 
+// 
+// 	(c) Jeroen P. Broks, 2024
+// 
+// 		This program is free software: you can redistribute it and/or modify
+// 		it under the terms of the GNU General Public License as published by
+// 		the Free Software Foundation, either version 3 of the License, or
+// 		(at your option) any later version.
+// 
+// 		This program is distributed in the hope that it will be useful,
+// 		but WITHOUT ANY WARRANTY; without even the implied warranty of
+// 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// 		GNU General Public License for more details.
+// 		You should have received a copy of the GNU General Public License
+// 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 
+// 	Please note that some references to data like pictures or audio, do not automatically
+// 	fall under this licenses. Mostly this is noted in the respective files.
+// 
+// Version: 24.10.30
+// End License
 // Lic:
 // Jalondi
 // Script Manager
@@ -127,6 +153,21 @@ namespace Slyvina {
 			return 0;
 		}
 
+		static int JA_Comment(lua_State* L) {
+			auto
+				Comment{ Lunatic_CheckString(L,1) },
+				Tag{ Lunatic_OptString(L,2,"Comment") };
+			auto From{ CommentFrom::String };
+			if (Prefixed(Upper(Comment), "FILE:")) {
+				Comment = Comment.substr(5);
+				From = CommentFrom::File;
+			}
+			uint32 c{ 0 };
+			while (Create_HaveComment(Tag)) { Tag = Lunatic_OptString(L, 2, "Comment") + TrSPrintF(" #", ++c);	}
+			Create_AddComment(Comment, Tag, From);
+			return 0;
+		}
+
 		static int JA_Import(lua_State* L) {
 			Create_AddPatch(luaL_checkstring(L, 1), PatchType::Import);
 			return 0;
@@ -250,6 +291,7 @@ namespace Slyvina {
 			{ "FSPLIT", JA_FSplit },
 			{ "CLEAR", JA_Clear },
 			{ "ADD", JA_Add },
+			{"COMMENT", JA_Comment },
 			{ "IMPORT", JA_Import },
 			{ "REQUIRE", JA_Require },
 			{ "ALIAS", JA_Alias },
@@ -257,7 +299,7 @@ namespace Slyvina {
 			{ "DIR_TRUE_IGNORE",JA_Dir },
 			{ "PLATFORM",JA_Platform },
 			{ "START", JA_Start },
-			{ "RUN",JA_Start }
+			{ "RUN",JA_Start }				
 			};
 
 

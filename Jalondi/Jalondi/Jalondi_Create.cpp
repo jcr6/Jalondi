@@ -1,28 +1,29 @@
-// Lic:
+// License:
+// 
 // Jalondi
-// Create JCR6 File
+// Create
 // 
 // 
 // 
-// (c) Jeroen P. Broks, 2024
+// 	(c) Jeroen P. Broks, 2024
 // 
-// This program is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
+// 		This program is free software: you can redistribute it and/or modify
+// 		it under the terms of the GNU General Public License as published by
+// 		the Free Software Foundation, either version 3 of the License, or
+// 		(at your option) any later version.
 // 
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-// You should have received a copy of the GNU General Public License
-// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+// 		This program is distributed in the hope that it will be useful,
+// 		but WITHOUT ANY WARRANTY; without even the implied warranty of
+// 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// 		GNU General Public License for more details.
+// 		You should have received a copy of the GNU General Public License
+// 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // 
-// Please note that some references to data like pictures or audio, do not automatically
-// fall under this licenses. Mostly this is noted in the respective files.
+// 	Please note that some references to data like pictures or audio, do not automatically
+// 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.08
-// EndLic
+// Version: 24.10.30 I
+// End License
 
 #include <SlyvRoman.hpp>
 #include <SlyvString.hpp>
@@ -60,11 +61,13 @@ namespace Slyvina {
 		static std::vector<EntryToAlias> _EntriesToAlias{};
 		static std::vector<PatchToAdd> _PatchesToAdd{};
 		static std::map<String, JT_CreateBlock> _BlockNums{};
+		static StringMap _CommentsToAdd{ nullptr };
 		static bool Merge1{ false }, Merge2{ false };
 
 		void Create_Clear() {
 			_FilesToAdd.clear();
 			_BlockNums.clear();
+			_CommentsToAdd = nullptr;
 			Merge1 = false;
 			Merge2 = false;
 		}
@@ -102,6 +105,33 @@ namespace Slyvina {
 			PatchToAdd P2A{ Source,Prefix,PT };
 			Create_AddPatch(P2A);
 		}
+		void Create_AddComment(String Source, String Tag, CommentFrom From) {
+			_CommentsToAdd = _CommentsToAdd ? _CommentsToAdd : NewStringMap();
+			String _Cmt;
+			//Trans2Upper(Tag);
+			switch (From) {
+			case Slyvina::Jalondi::CommentFrom::Unknown:
+				QCol->Error("Comment type unknown!");
+				break;
+			case Slyvina::Jalondi::CommentFrom::String:				
+				if (_CommentsToAdd->count(Tag)) { QCol->Error("Dupe comment tag: "+Tag); }
+				(*_CommentsToAdd)[Tag] = Source;
+				break;
+			case Slyvina::Jalondi::CommentFrom::File:
+				if (FileExists(Source))
+					Create_AddComment(FLoadString(Source), Tag, CommentFrom::String);
+				else 
+					QCol->Error("File for comment not found: " + Source);
+				break;
+			default:
+				QCol->Error("Comment type unknown! "+TrSPrintF("(%d)",(int)From));
+				break;
+			}
+		}
+
+		bool Create_HaveComment(String Tag) {
+			return _CommentsToAdd && _CommentsToAdd->count(Tag);
+		}
 
 		void Create_Run(String JCR6File, String Storage, String Signature) {
 			try {
@@ -112,6 +142,7 @@ namespace Slyvina {
 				auto JO{ CreateJCR6(JCR6File,Storage,Sig) }; J6E;
 				QCol->Doing("FT Storage", Storage);
 				if (Sig.size()) QCol->Doing("Signature", Sig);
+				if (_CommentsToAdd) for (auto& icmt : *_CommentsToAdd) { QCol->Doing("Comment", icmt.first); QCol->Grey(icmt.second); JO->AddComment(icmt.first, icmt.second); }
 				for (auto F2A : _FilesToAdd) {
 					QCol->Doing("Freezing", F2A.Source, " ");
 					if (!FileExists(F2A.Source)) ErrB("Source file not found!");
@@ -236,16 +267,17 @@ namespace Slyvina {
 			QCol->Pink(" <JCR6 file> ");
 			QCol->Grey(" <files to pack>\n");
 			QCol->LMagenta("\n\nAllowed switches\n");
-			QCol->Yellow("-cm <method>\t"); QCol->Cyan("Compression method (default is Store)\n");
-			QCol->Yellow("-fc <method>\t"); QCol->Cyan("Compression method for File Table (default is Store)\n");
+			QCol->Yellow("-cm <method>  \t"); QCol->Cyan("Compression method (default is Store)\n");
+			QCol->Yellow("-fc <method>  \t"); QCol->Cyan("Compression method for File Table (default is Store)\n");
 			QCol->Yellow("-s <signature>\t"); QCol->Cyan("Set signature manually\n");
-			QCol->Yellow("-a <author>\t"); QCol->Cyan("Set Author\n");
-			QCol->Yellow("-n <notes>\t"); QCol->Cyan("Set Notes\n");
+			QCol->Yellow("-a <author>   \t"); QCol->Cyan("Set Author\n");
+			QCol->Yellow("-n <notes>    \t"); QCol->Cyan("Set Notes\n");
+			QCol->Yellow("-c <file>     \t"); QCol->Cyan("Add comment");
 			QCol->Yellow("-imp <imports>\t"); QCol->Cyan("Import external JCR6 files. All must be in 1 argument divided by semi-colons\n");
 			QCol->Yellow("-req <imports>\t"); QCol->Cyan("Require external JCR6 files. All must be in 1 argument divided by semi-colons\n");
 			QCol->Yellow("-m            \t"); QCol->Cyan("Merge files recognized as files processable by JCR6 into the new file as folder\n");
 			QCol->Yellow("-m2           \t"); QCol->Cyan("Similar to -m but (if possible) will not repack, but just copy the lump of data\n");
-			QCol->Yellow("-y\t"); QCol->Cyan("Answer all yes/no questions with 'yes'\n");
+			QCol->Yellow("-y            \t"); QCol->Cyan("Answer all yes/no questions with 'yes'\n");
 			QCol->Grey("-m2 is mostly faster than just -m, but if it preferable to just copy the lump without repacking?\nWhen -m and -m2 are used together -m will be ignored.\n\n");
 			QCol->Grey("Entries in blocks will always be repacked, but when using -m2 (and not using Store) entries in blocks will also end up in a block in the target resource.\n\n\n");
 		}
@@ -278,6 +310,7 @@ namespace Slyvina {
 			AddFlag_String(f, "n", "");
 			AddFlag_String(f, "imp", "");
 			AddFlag_String(f, "req", "");			
+			AddFlag_String(f, "c", "");
 			AddFlag_Bool(f, "m", false);
 			AddFlag_Bool(f, "m2", false);
 			auto PA{ ParseArg(car,arg,f) };
@@ -287,6 +320,7 @@ namespace Slyvina {
 			auto author{ PA.string_flags["author"] };
 			auto notes{ PA.string_flags["notes"] };
 			auto alwaysyes{ PA.bool_flags["y"] };
+			auto comment{ PA.string_flags["c"] };
 			if (FileExists(fjcr)) {
 				if (!GYes("File \"" + fjcr + "\" already exists. Destroy the old")) return 7;
 				if (!FileDelete(fjcr)) { QCol->Error("File could not be deleted!"); return 8; }
@@ -303,6 +337,12 @@ namespace Slyvina {
 			Create_Clear();
 			Merge1 = PA.bool_flags["m"];  Merge2 = PA.bool_flags["m2"];
 			auto entries{ 0 };
+			if (comment.size()) {
+				QCol->Doing("Comment", comment);
+				Create_AddComment(comment, "Comment", CommentFrom::File);
+			} else {
+				QCol->Doing("Comment", "", ""); QCol->Red("None\n");
+			}
 			for (auto A : AddStuff) {
 				if (IsFile(A)) {					
 					entries++;
