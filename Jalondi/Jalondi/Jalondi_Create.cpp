@@ -22,7 +22,7 @@
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 24.10.30 I
+// Version: 24.10.30 II
 // End License
 
 #include <SlyvRoman.hpp>
@@ -272,7 +272,7 @@ namespace Slyvina {
 			QCol->Yellow("-s <signature>\t"); QCol->Cyan("Set signature manually\n");
 			QCol->Yellow("-a <author>   \t"); QCol->Cyan("Set Author\n");
 			QCol->Yellow("-n <notes>    \t"); QCol->Cyan("Set Notes\n");
-			QCol->Yellow("-c <file>     \t"); QCol->Cyan("Add comment");
+			QCol->Yellow("-c <file>     \t"); QCol->Cyan("Add comment\n");
 			QCol->Yellow("-imp <imports>\t"); QCol->Cyan("Import external JCR6 files. All must be in 1 argument divided by semi-colons\n");
 			QCol->Yellow("-req <imports>\t"); QCol->Cyan("Require external JCR6 files. All must be in 1 argument divided by semi-colons\n");
 			QCol->Yellow("-m            \t"); QCol->Cyan("Merge files recognized as files processable by JCR6 into the new file as folder\n");
