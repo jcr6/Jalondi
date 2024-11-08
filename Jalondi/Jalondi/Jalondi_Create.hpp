@@ -66,6 +66,8 @@ namespace Slyvina {
 				Author{ "" },
 				Notes{ "" },
 				Block{ "" };
+			CommentFrom 
+				Type{ CommentFrom::File };
 		};
 		struct EntryToAlias {
 			String
@@ -83,6 +85,8 @@ namespace Slyvina {
 		void Create_Clear();
 		String Create_AddFile(FileToAdd& F2A);
 		String Create_AddFile(String Source, String Target, String Storage = "Store", String Author="",String Notes="", String Block = "");
+		String Create_AddString(FileToAdd& F2A);
+		String Create_AddString(String Source, String Target, String Storage = "Store", String Author = "", String Notes = "", String Block = "");
 		void Create_Alias(EntryToAlias E2A);
 		void Create_Alias(String Source, String Alias);
 		void Create_AddPatch(PatchToAdd P2A);

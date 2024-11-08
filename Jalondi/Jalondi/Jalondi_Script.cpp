@@ -153,6 +153,20 @@ namespace Slyvina {
 			return 0;
 		}
 
+		static int JA_AddString(lua_State* L) {
+			auto Source{ Lunatic_CheckString(L,1) };
+			FileToAdd F2A{
+				Source,
+				Lunatic_OptString(L,2,StripDir(Source)),
+				Lunatic_OptString(L,3,"Store"),
+				Lunatic_OptString(L,4,""), // Author
+				Lunatic_OptString(L,5,""), // Notes
+				Lunatic_OptString(L,6,"") // Block
+			};
+			Create_AddString(F2A);
+			return 0;
+		}
+
 		static int JA_Comment(lua_State* L) {
 			auto
 				Comment{ Lunatic_CheckString(L,1) },
@@ -291,7 +305,8 @@ namespace Slyvina {
 			{ "FSPLIT", JA_FSplit },
 			{ "CLEAR", JA_Clear },
 			{ "ADD", JA_Add },
-			{"COMMENT", JA_Comment },
+			{ "ADDSTRING",JA_AddString},
+			{ "COMMENT", JA_Comment },
 			{ "IMPORT", JA_Import },
 			{ "REQUIRE", JA_Require },
 			{ "ALIAS", JA_Alias },
@@ -299,7 +314,7 @@ namespace Slyvina {
 			{ "DIR_TRUE_IGNORE",JA_Dir },
 			{ "PLATFORM",JA_Platform },
 			{ "START", JA_Start },
-			{ "RUN",JA_Start }				
+			{ "RUN",JA_Start }
 			};
 
 

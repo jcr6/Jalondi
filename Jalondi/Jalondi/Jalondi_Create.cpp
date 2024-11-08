@@ -82,6 +82,7 @@ namespace Slyvina {
 				} while (_BlockNums.count(BlockTag));
 			} else { BlockTag = F2A.Block; }
 			_BlockNums[BlockTag] = nullptr; // Actual numbers will be filled in once the packing is running
+			F2A.Type = CommentFrom::File;
 			_FilesToAdd.push_back(F2A);
 			return BlockTag;
 		}
@@ -89,6 +90,28 @@ namespace Slyvina {
 		String Create_AddFile(String Source, String Target, String Storage, String Author, String Notes, String Block) {
 			FileToAdd F2A{ Source,Target,Storage,Author,Notes,Block };
 			return Create_AddFile(F2A);
+		}
+
+		String Create_AddString(FileToAdd& F2A)		{
+			Trans2Upper(F2A.Block);
+			String BlockTag{};
+			if (F2A.Block == "*NEW") {
+				auto i = 0;
+				do {
+					BlockTag = "BLOCK " + ToRoman(i++);
+				} while (_BlockNums.count(BlockTag));
+			}
+			else { BlockTag = F2A.Block; }
+			_BlockNums[BlockTag] = nullptr;
+			F2A.Type = CommentFrom::String;
+			_FilesToAdd.push_back(F2A);
+			return BlockTag;
+		}
+
+		String Create_AddString(String Source, String Target, String Storage, String Author, String Notes, String Block)
+		{
+			FileToAdd F2A{ Source,Target,Storage,Author,Notes,Block };
+			return Create_AddString(F2A);
 		}
 
 		void Create_Alias(EntryToAlias E2A) { _EntriesToAlias.push_back(E2A); }
@@ -144,48 +167,83 @@ namespace Slyvina {
 				if (Sig.size()) QCol->Doing("Signature", Sig);
 				if (_CommentsToAdd) for (auto& icmt : *_CommentsToAdd) { QCol->Doing("Comment", icmt.first); QCol->Grey(icmt.second); JO->AddComment(icmt.first, icmt.second); }
 				for (auto F2A : _FilesToAdd) {
-					QCol->Doing("Freezing", F2A.Source, " ");
-					if (!FileExists(F2A.Source)) ErrB("Source file not found!");
-					if ((Merge1 || Merge2) && _JT_Dir::Recognize(F2A.Source) != "NONE") {
-						std::cout << "\r";
-						QCol->Doing("Merging", F2A.Source);
-						auto JI{ JCR6_Dir(F2A.Source) }; J6E;
-						auto JEntries{ JI->Entries() };
-						for (auto ment : *JEntries) {
-							if (Merge2 && ment->Block() == 0) {
-								QCol->Doing("Copying", "","");
-								QCol->Magenta(F2A.Source + "/");
-								QCol->LCyan(ment->Name());
-								JO->JCRCopy(JI, ment->Name(), F2A.Target + "/" + ment->Name());	J6E;
-								QCol->Yellow("\r Copied\n");
-							} else if (ment->Block()) {
-								QCol->Doing("Reblocking", "","");
-								QCol->Magenta(F2A.Source + "/");
-								QCol->LCyan(ment->Name());
-								auto BlockTag{ TrSPrintF(String("::MERGE::" + ment->MainFile + "::%08x::").c_str(),ment->Block()) };
-								if (!_BlockNums[BlockTag]) {
-									_BlockNums[BlockTag] = JO->AddBlock(F2A.Storage); J6E;
-									QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[BlockTag]->ID()));
+					switch (F2A.Type) {
+					case CommentFrom::File: {
+						QCol->Doing("Freezing", F2A.Source, " ");
+						if (!FileExists(F2A.Source)) ErrB("Source file not found!");
+						if ((Merge1 || Merge2) && _JT_Dir::Recognize(F2A.Source) != "NONE") {
+							std::cout << "\r";
+							QCol->Doing("Merging", F2A.Source);
+							auto JI{ JCR6_Dir(F2A.Source) }; J6E;
+							auto JEntries{ JI->Entries() };
+							for (auto ment : *JEntries) {
+								if (Merge2 && ment->Block() == 0) {
+									QCol->Doing("Copying", "", "");
+									QCol->Magenta(F2A.Source + "/");
+									QCol->LCyan(ment->Name());
+									JO->JCRCopy(JI, ment->Name(), F2A.Target + "/" + ment->Name());	J6E;
+									QCol->Yellow("\r Copied\n");
 								}
-								auto B{ JI->B(ment->Name()) }; J6E;
-								_BlockNums[BlockTag]->AddBank(B, F2A.Target + "/" + ment->Name(),  ment->Author(), ment->Notes()); J6E;
-								QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[BlockTag]->ID()));
-							} else {
-								QCol->Doing("Refreezing", "","");
-								QCol->Magenta(F2A.Source + "/");
-								QCol->LCyan(ment->Name()+" ");
-								auto B{ JI->B(ment->Name()) }; J6E;
-								JO->AddBank(B, F2A.Target + "/" + ment->Name(), F2A.Storage, ment->Author(), ment->Notes()); J6E;
-								auto e{ JO->Entries[Upper(F2A.Target+"/"+ment->Name())]};
+								else if (ment->Block()) {
+									QCol->Doing("Reblocking", "", "");
+									QCol->Magenta(F2A.Source + "/");
+									QCol->LCyan(ment->Name());
+									auto BlockTag{ TrSPrintF(String("::MERGE::" + ment->MainFile + "::%08x::").c_str(),ment->Block()) };
+									if (!_BlockNums[BlockTag]) {
+										_BlockNums[BlockTag] = JO->AddBlock(F2A.Storage); J6E;
+										QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[BlockTag]->ID()));
+									}
+									auto B{ JI->B(ment->Name()) }; J6E;
+									_BlockNums[BlockTag]->AddBank(B, F2A.Target + "/" + ment->Name(), ment->Author(), ment->Notes()); J6E;
+									QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[BlockTag]->ID()));
+								}
+								else {
+									QCol->Doing("Refreezing", "", "");
+									QCol->Magenta(F2A.Source + "/");
+									QCol->LCyan(ment->Name() + " ");
+									auto B{ JI->B(ment->Name()) }; J6E;
+									JO->AddBank(B, F2A.Target + "/" + ment->Name(), F2A.Storage, ment->Author(), ment->Notes()); J6E;
+									auto e{ JO->Entries[Upper(F2A.Target + "/" + ment->Name())] };
+									if (e->Storage() == "Store")
+										QCol->White("\rStored:    \n");
+									else {
+										QCol->LGreen(e->Storage() + "\r");
+										QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
+									}
+								}
+							}
+						} else {
+							if (!GetCompDrivers()->count(F2A.Storage)) {
+								Err("Storage method '" + F2A.Storage + "' not found -- Storing!");
+								F2A.Storage = "Store";
+								QCol->Doing("Freezing", F2A.Source, " ");
+							}
+							if (JO->Entries.count(Upper(F2A.Target))) {
+								ErrB("Duplicate target name: " + F2A.Target);
+							}
+							if (F2A.Block.size()) {
+								if (!_BlockNums[F2A.Block]) {
+									_BlockNums[F2A.Block] = JO->AddBlock(F2A.Storage); J6E;
+									QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[F2A.Block]->ID()));
+								}
+								_BlockNums[F2A.Block]->AddFile(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
+								QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[F2A.Block]->ID()));
+							}
+							else {
+								JO->AddFile(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
+								auto e{ JO->Entries[Upper(F2A.Target)] };
 								if (e->Storage() == "Store")
-									QCol->White("\rStored:    \n");
+									QCol->White("\rStored:   \n");
 								else {
 									QCol->LGreen(e->Storage() + "\r");
 									QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
 								}
 							}
 						}
-					} else {
+					} break;
+					case CommentFrom::String: {
+						auto ShowStr{ TrSPrintF("<String>[%d]: \"",F2A.Source.size()) + (F2A.Source.size()<12?F2A.Source:F2A.Source.substr(0,10)+"...") +"\""};
+						QCol->Doing("Freezing", ShowStr," ");
 						if (!GetCompDrivers()->count(F2A.Storage)) {
 							Err("Storage method '" + F2A.Storage + "' not found -- Storing!");
 							F2A.Storage = "Store";
@@ -199,10 +257,10 @@ namespace Slyvina {
 								_BlockNums[F2A.Block] = JO->AddBlock(F2A.Storage); J6E;
 								QCol->LBlue(TrSPrintF("New Block #%d", _BlockNums[F2A.Block]->ID()));
 							}
-							_BlockNums[F2A.Block]->AddFile(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
+							_BlockNums[F2A.Block]->AddString(F2A.Source, F2A.Target, F2A.Author, F2A.Notes);
 							QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[F2A.Block]->ID()));
 						} else {
-							JO->AddFile(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
+							JO->AddString(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
 							auto e{ JO->Entries[Upper(F2A.Target)] };
 							if (e->Storage() == "Store")
 								QCol->White("\rStored:   \n");
@@ -211,6 +269,9 @@ namespace Slyvina {
 								QCol->LMagenta(TrSPrintF("%9.2f%% \n", ((double)e->CompressedSize() / (double)e->RealSize()) * 100.0));
 							}
 						}
+					} break;
+					default:
+						QCol->Error("Unknown data! Jalondi can't add!");
 					}
 				}
 				for (auto B2C : _BlockNums) {
