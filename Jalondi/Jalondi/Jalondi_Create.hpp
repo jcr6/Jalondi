@@ -81,7 +81,7 @@ namespace Slyvina {
 			PatchType
 				Type{ PatchType::Unknown };
 		};
-
+		extern bool ScriptMerge;
 		void Create_Clear();
 		String Create_AddFile(FileToAdd& F2A);
 		String Create_AddFile(String Source, String Target, String Storage = "Store", String Author="",String Notes="", String Block = "");

@@ -63,12 +63,13 @@ namespace Slyvina {
 		static std::map<String, JT_CreateBlock> _BlockNums{};
 		static StringMap _CommentsToAdd{ nullptr };
 		static bool Merge1{ false }, Merge2{ false };
+		bool ScriptMerge{ false };
 
 		void Create_Clear() {
 			_FilesToAdd.clear();
 			_BlockNums.clear();
 			_CommentsToAdd = nullptr;
-			Merge1 = false;
+			Merge1 = ScriptMerge;
 			Merge2 = false;
 		}
 
@@ -230,8 +231,10 @@ namespace Slyvina {
 								QCol->Green(TrSPrintF("\rBlock #%03d\n", _BlockNums[F2A.Block]->ID()));
 							}
 							else {
+								while (F2A.Target[0] == '/') F2A.Target = F2A.Target.substr(1);
 								JO->AddFile(F2A.Source, F2A.Target, F2A.Storage, F2A.Author, F2A.Notes); J6E;
 								auto e{ JO->Entries[Upper(F2A.Target)] };
+								if (!e) QCol->Error("Entry " + F2A.Target + " has become null");
 								if (e->Storage() == "Store")
 									QCol->White("\rStored:   \n");
 								else {
@@ -396,7 +399,7 @@ namespace Slyvina {
 				AddStuff.push_back(ChReplace(CurrentDir(), '\\', '/'));
 			} else for (int i = 2; i < PA.arguments.size(); i++) AddStuff.push_back(ChReplace(PA.arguments[i], '\\', '/'));
 			Create_Clear();
-			Merge1 = PA.bool_flags["m"];  Merge2 = PA.bool_flags["m2"];
+			Merge1 = PA.bool_flags["m"] || ScriptMerge;  Merge2 = PA.bool_flags["m2"];
 			auto entries{ 0 };
 			if (comment.size()) {
 				QCol->Doing("Comment", comment);

@@ -23,7 +23,6 @@
 // 	fall under this licenses. Mostly this is noted in the respective files.
 // 
 // Version: 24.10.30
-// End License
 // Lic:
 // Jalondi
 // Script Manager
@@ -49,6 +48,7 @@
 // 
 // Version: 24.10.08
 // EndLic
+// End License
 
 #include <Lunatic.hpp>
 
@@ -222,6 +222,11 @@ namespace Slyvina {
 			return 1;
 		}
 
+		static int JA_Merge(lua_State* L) {
+			ScriptMerge = Lunatic_CheckBoolean(L, 1);
+			return 0;
+		}
+
 		static int JA_Start(lua_State* L) {
 			Create_Run(
 				Lunatic_CheckString(L, 1),
@@ -263,6 +268,7 @@ namespace Slyvina {
 		}
 
 		static int Script_Go(int c, char** a) {
+			ScriptMerge = true;
 			_StaakAlles = false;
 			Create_Clear();
 			QCol->Doing("Preparing", "Lua State");
@@ -313,8 +319,9 @@ namespace Slyvina {
 			{ "PWD", JA_PWD },
 			{ "DIR_TRUE_IGNORE",JA_Dir },
 			{ "PLATFORM",JA_Platform },
+			{ "MERGE",JA_Merge },
 			{ "START", JA_Start },
-			{ "RUN",JA_Start }
+			{ "RUN",JA_Start }			
 			};
 
 
