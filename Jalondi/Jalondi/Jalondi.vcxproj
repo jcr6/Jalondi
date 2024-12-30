@@ -75,6 +75,10 @@
     <OutDir>Exe</OutDir>
     <LibraryPath>E:\Projects\Applications\Slyvina\Libs\JCR6\3rdParty\zlib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>E:\Projects\Applications\Slyvina\Libs\Lunatic;E:\Projects\Applications\Slyvina\Libs\Kitty\Headers;E:\Projects\Applications\Slyvina\Libs\Units\Headers;E:\Projects\Applications\Slyvina\Libs\JCR6\Headers;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Exe\Windows</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -267,6 +271,9 @@
     </CopyFileToFolders>
     <None Include="Jalondi.lua" />
     <None Include="Jalondi_MkInit.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Libs\JCR6\3rdParty\zlib\zlibstatic.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

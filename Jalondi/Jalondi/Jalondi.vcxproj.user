@@ -5,4 +5,9 @@
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
     <LocalDebuggerWorkingDirectory>E:\Projects\Applications\Slyvina\Apps\Gyermo\Gyermo</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LocalDebuggerCommandArguments>view debug/voorlezer.jql</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>E:\Projects\Applications\Scyndi\Voorlezer</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
 </Project>

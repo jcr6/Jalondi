@@ -433,4 +433,9 @@
       <Filter>Source Files\External\zlib</Filter>
     </CopyFileToFolders>
   </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\..\..\Libs\JCR6\3rdParty\zlib\zlibstatic.lib">
+      <Filter>Source Files\Slyvina\JCR6</Filter>
+    </Library>
+  </ItemGroup>
 </Project>
