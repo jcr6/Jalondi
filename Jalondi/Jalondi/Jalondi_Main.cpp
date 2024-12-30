@@ -68,7 +68,7 @@ int main(int argc, char** args) {
 	SJB("Jalondi_Main.cpp");
 	InitAll();
 //*
-	InitJQL();
+	InitJQL(); JQL_VerboseNonCriticalErrors = true;
 	InitQuake();
 	InitWAD();
 	for (int i = 2; i < argc; ++i) if (strcmp(args[i], "-w")==0) { Westwood_Init(); QCol->Warn("Westwood PAK files available"); }
