@@ -6,8 +6,8 @@
     <LocalDebuggerWorkingDirectory>E:\Projects\Applications\Slyvina\Apps\Gyermo\Gyermo</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LocalDebuggerCommandArguments>view debug/voorlezer.jql</LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>E:\Projects\Applications\Scyndi\Voorlezer</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerCommandArguments>view "debug/Star Story.jql"</LocalDebuggerCommandArguments>
+    <LocalDebuggerWorkingDirectory>E:\Projects\Applications\Scyndi\Star Story</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

@@ -148,6 +148,7 @@
     <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_Westwood.cpp" />
     <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_Write.cpp" />
     <ClCompile Include="..\..\..\..\Libs\JCR6\Source\JCR6_zlib.cpp" />
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighACS.cpp" />
     <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBASIC.cpp" />
     <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBlitzBasic.cpp" />
     <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighBlitzMax.cpp" />

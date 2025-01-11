@@ -26,6 +26,7 @@ JalondiFiles = [
     "../../../Libs/JCR6/Source/JCR6_Westwood.cpp",
     "../../../Libs/JCR6/Source/JCR6_Write.cpp",
     "../../../Libs/JCR6/Source/JCR6_zlib.cpp",
+    "../../../Libs/Kitty/Source/KittyHighACS.cpp",
     "../../../Libs/Kitty/Source/KittyHighBASIC.cpp",
     "../../../Libs/Kitty/Source/KittyHighBlitzBasic.cpp",
     "../../../Libs/Kitty/Source/KittyHighBlitzMax.cpp",

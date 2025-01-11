@@ -312,6 +312,9 @@
     <ClCompile Include="Jalondi_Convert.cpp">
       <Filter>Source Files\Jalondi</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\..\Libs\Kitty\Source\KittyHighACS.cpp">
+      <Filter>Source Files\Slyvina\Kitty</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Jalondi_Class.hpp">
