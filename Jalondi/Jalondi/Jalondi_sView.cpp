@@ -1,54 +1,55 @@
 // License:
-// 
+//
 // Jalondi
 // Syntax Highlight View
-// 
-// 
-// 
+//
+//
+//
 // 	(c) Jeroen P. Broks, 2024, 2025
-// 
+//
 // 		This program is free software: you can redistribute it and/or modify
 // 		it under the terms of the GNU General Public License as published by
 // 		the Free Software Foundation, either version 3 of the License, or
 // 		(at your option) any later version.
-// 
+//
 // 		This program is distributed in the hope that it will be useful,
 // 		but WITHOUT ANY WARRANTY; without even the implied warranty of
 // 		MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // 		GNU General Public License for more details.
 // 		You should have received a copy of the GNU General Public License
 // 		along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // 	Please note that some references to data like pictures or audio, do not automatically
 // 	fall under this licenses. Mostly this is noted in the respective files.
-// 
+//
 // Version: 25.01.04
-// End License
 // Lic:
 // Jalondi
 // Syntax Highlight View
-// 
-// 
-// 
+//
+//
+//
 // (c) Jeroen P. Broks, 2024
-// 
+//
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// 
+//
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
-// 
+//
 // Version: 24.10.08
 // EndLic
+// End License
+
 #include <Kitty_High.hpp>
 #include <High_Headers.hpp>
 #include <SlyvString.hpp>
@@ -100,7 +101,7 @@ namespace Slyvina {
 			AddFlag_Bool(FC, "ln", false);
 			AddFlag_String(FC, "lng", "AUTO");
 			auto PA{ ParseArg(argc,args,FC) };
-			auto fjcr{ ChReplace(PA.arguments[1],'\\','/') }; 
+			auto fjcr{ ChReplace(PA.arguments[1],'\\','/') };
 			if (PA.arguments.size() < 3) { QCol->Error("No entries to be viewed!"); return 4; }
 			auto ShowLineNumbers{ PA.bool_flags["ln"] };
 			auto Language{ Lower(PA.string_flags["lng"]) };
@@ -122,7 +123,7 @@ namespace Slyvina {
 			for (int i = 2; i < PA.arguments.size(); i++) {
 				auto nent{ PA.arguments[i] };
 				QCol->Doing(TrSPrintF("%d/%d Entry", i - 1, PA.arguments.size() - 2), nent);
-				auto src{ rjcr->GetString(nent) }; JCheckC(21);				 
+				auto src{ rjcr->GetString(nent) }; JCheckC(21);
 				auto lng{ Language };
 				auto ext{ Lower(ExtractExt(nent)) };
 				KittyHigh Viewer = _KittyHigh::Langs["OTHER"];
@@ -133,7 +134,7 @@ namespace Slyvina {
 				}
 				if (!Viewer) {
 					QCol->Error("Internal fatal error: Nullviewer! Please report!");
-					QCol->Doing("lng", lng);	
+					QCol->Doing("lng", lng);
 					QCol->Doing("ext", ext);
 					QCol->Doing("AutoLang", boolstring(AutoLang));
 					QCol->Doing("extCNT", boolstring(_KittyHigh::Langs.count(ext)));
